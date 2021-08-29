@@ -1,11 +1,13 @@
-import React from 'react'
+import React from "react";
+import "./Main.css";
+import Promo from "../Promo/Promo";
 
 function Main() {
-    return (
-        <div>
-            
-        </div>
-    )
+  return (
+    <div className='main'>
+      <Promo />
+    </div>
+  );
 }
 
-export default Main
+export default Main;

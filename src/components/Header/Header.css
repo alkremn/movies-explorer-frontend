@@ -40,10 +40,13 @@
 }
 
 @media screen and (min-width: 768px) {
-  .header {
+  .header__container {
     padding: 0 30px;
   }
   .header__menu-link {
     font-size: 12px;
+  }
+  .header__menu-link-login {
+    margin-left: 18px;
   }
 }
