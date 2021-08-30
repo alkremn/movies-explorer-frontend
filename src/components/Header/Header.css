@@ -1,16 +1,16 @@
 .header {
   background-color: #073042;
-  height: 74px;
+  min-height: 74px;
 }
 .header__container {
+  width: calc(100vw - 28px);
+  min-height: inherit;
   margin: 0 auto;
-  padding: 0 14px;
   max-width: 1140px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #073042;
-  height: 74px;
 }
 
 .header__logo {
@@ -41,7 +41,7 @@
 
 @media screen and (min-width: 768px) {
   .header__container {
-    padding: 0 30px;
+    width: calc(100vw - 60px);
   }
   .header__menu-link {
     font-size: 12px;
