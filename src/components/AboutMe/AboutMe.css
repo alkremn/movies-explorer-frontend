@@ -1,0 +1,148 @@
+.about {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: calc(100vw - 36px);
+  max-width: 1140px;
+}
+
+.about__title {
+  margin: 0;
+  margin-top: 70px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #fff;
+}
+.about__image {
+  border-radius: 10px;
+  margin-top: 60px;
+  max-width: 500px;
+}
+
+.about__description-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.about__text-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.about__container {
+  display: flex;
+  flex-direction: column;
+}
+
+.about__name {
+  margin: 0;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 36px;
+  margin-top: 40px;
+}
+.about__occupation {
+  margin: 0;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+  margin-top: 20px;
+}
+
+.about__description {
+  margin: 0;
+  margin-top: 20px;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.about__links {
+  display: flex;
+  margin: 40px 0 69px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.about__link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.about__link:first-child {
+  margin-right: 26px;
+}
+
+@media screen and (min-width: 535px) {
+  .about__image {
+    align-self: center;
+  }
+  .about__description-container {
+    max-width: 500px;
+    align-self: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about {
+    width: calc(100vw - 100px);
+  }
+
+  .about__title {
+    font-size: 22px;
+    padding-bottom: 23px;
+  }
+
+  .about__container {
+    flex-direction: row-reverse;
+    margin-top: 66px;
+  }
+
+  .about__image {
+    margin: 0;
+    max-width: 255px;
+  }
+
+  .about__description-container {
+    height: 100%;
+  }
+
+  .about__name {
+    font-size: 40px;
+    line-height: 40px;
+    margin-top: 0;
+  }
+
+  .about__occupation {
+    margin-top: 16px;
+  }
+
+  .about__description {
+    font-size: 12px;
+    line-height: 18px;
+    padding-right: 50px;
+    margin-top: 20px;
+  }
+
+  .about__links {
+    margin: 0;
+    justify-self: flex-end;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .techs__subtitle {
+    margin-top: 90px;
+  }
+  .techs__description {
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 26px;
+  }
+  .techs__grid {
+    margin: 100px 0;
+  }
+}
