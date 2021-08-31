@@ -98,7 +98,8 @@
 
   .about__container {
     flex-direction: row-reverse;
-    margin-top: 66px;
+    justify-content: space-between;
+    margin: 66px 0 90px;
   }
 
   .about__image {
@@ -107,7 +108,9 @@
   }
 
   .about__description-container {
-    height: 100%;
+    align-self: start;
+    min-height: 308px;
+    justify-content: space-between;
   }
 
   .about__name {
@@ -134,15 +137,27 @@
 }
 
 @media screen and (min-width: 1024px) {
-  .techs__subtitle {
-    margin-top: 90px;
+  .about__container {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin: 66px 0 100px;
   }
-  .techs__description {
+
+  .about__description-container {
+    min-height: 326px;
+  }
+
+  .about__image {
+    max-width: 270px;
+  }
+
+  .about__occupation {
+    font-size: 18px;
+    margin-top: 18px;
+  }
+
+  .about__description {
     font-size: 14px;
-    line-height: 20px;
-    margin-top: 26px;
-  }
-  .techs__grid {
-    margin: 100px 0;
+    line-height: 22px;
   }
 }
