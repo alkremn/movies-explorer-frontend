@@ -1,0 +1,14 @@
+.card__list {
+  list-style: none;
+  padding-left: 0;
+  margin: 45px auto 0;
+  width: calc(100vw - 20px);
+  max-width: 1140px;
+}
+.card__list-item {
+  margin-top: 20px 0;
+}
+
+.card__list:first-child {
+  margin-top: 0;
+}

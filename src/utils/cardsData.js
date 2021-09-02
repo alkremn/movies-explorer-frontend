@@ -1,0 +1,58 @@
+export const cardsData = [
+  {
+    card_id: 1,
+    title: "33 слова о дизайне",
+    url: "../../../images/cards/1.jpg",
+    duration: "1ч42м",
+    isShortFilm: true,
+  },
+  {
+    card_id: 2,
+    title: "33 слова о дизайне",
+    url: "../images/cards/2.jpg",
+    duration: "1ч42м",
+    isShortFilm: false,
+  },
+  {
+    card_id: 3,
+    title: "33 слова о дизайне",
+    url: "../images/cards/3.jpg",
+    duration: 102,
+    isShortFilm: false,
+  },
+  {
+    card_id: 4,
+    title: "33 слова о дизайне",
+    url: "../images/cards/4.jpg",
+    duration: 102,
+    isShortFilm: false,
+  },
+  {
+    card_id: 5,
+    title: "33 слова о дизайне",
+    url: "../images/cards/5.jpg",
+    duration: 102,
+    isShortFilm: true,
+  },
+  {
+    card_id: 6,
+    title: "33 слова о дизайне",
+    url: "../images/cards/6.jpg",
+    duration: 102,
+    isShortFilm: false,
+  },
+  {
+    card_id: 7,
+    title: "33 слова о дизайне",
+    url: "../images/cards/7.jpg",
+    duration: 102,
+    isShortFilm: false,
+  },
+  {
+    card_id: 8,
+    title: "33 слова о дизайне",
+    url: "../images/cards/8.jpg",
+    duration: 102,
+    isShortFilm: false,
+  },
+];
