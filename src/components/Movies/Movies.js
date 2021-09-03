@@ -7,6 +7,7 @@ function Movies() {
     <section className='movies'>
       <SearchForm />
       <MoviesCardList />
+     
     </section>
   );
 }

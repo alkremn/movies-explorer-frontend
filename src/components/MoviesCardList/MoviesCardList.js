@@ -5,13 +5,16 @@ import { cardsData } from "../../utils/cardsData";
 
 function MoviesCardList() {
   return (
-    <ul className='card__list'>
-      {cardsData.map((card) => (
-        <li className='card__list-item'>
-          <MoviesCard card={card} />
-        </li>
-      ))}
-    </ul>
+    <div className='card__list-container'>
+      <ul className='card__list'>
+        {cardsData.map((card) => (
+          <li className='card__list-item'>
+            <MoviesCard card={card} />
+          </li>
+        ))}
+      </ul>
+      <button className='card__list-button'>Ещё</button>
+    </div>
   );
 }
 
