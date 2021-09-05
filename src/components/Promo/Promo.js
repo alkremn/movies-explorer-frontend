@@ -3,7 +3,7 @@ import "./Promo.css";
 import promo from "../../images/promo.svg";
 import NavTab from "../NavTab/NavButton";
 
-function Promo() {
+function Promo({ onButtonClick }) {
   return (
     <section className='promo'>
       <div className='promo__container'>
@@ -11,7 +11,8 @@ function Promo() {
           <img className='promo__image' src={promo} alt='promo' />
           <div className='promo__text'>
             <h1 className='promo__title'>
-              Учебный проект студента факультета <span className='promo__title-web'>Веб-разработки</span>.
+              Учебный проект студента факультета{" "}
+              <span className='promo__title-web'>Веб-разработки</span>.
             </h1>
             <p className='promo__subtitle'>
               Листайте ниже, чтобы узнать больше про этот проект и его
@@ -19,7 +20,7 @@ function Promo() {
             </p>
           </div>
         </div>
-        <NavTab />
+        <NavTab onButtonClick={onButtonClick} />
       </div>
     </section>
   );

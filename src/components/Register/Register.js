@@ -1,12 +1,15 @@
 import React from "react";
 import "./Register.css";
 import logo from "../../images/logo.svg";
+import { Link } from "react-router-dom";
 
 function Register() {
   return (
     <div className='register'>
       <div className='register__content'>
-        <img className='register__logo' src={logo} alt='logo' />
+        <Link to='/'>
+          <img className='register__logo' src={logo} alt='logo' />
+        </Link>
         <h1 className='register__title'>Добро пожаловать!</h1>
         <form className='register__form' action='' method='POST'>
           <fieldset className='register__form-fieldset'>
@@ -41,7 +44,9 @@ function Register() {
           </button>
           <p className='register__login-text'>
             Уже зарегистрированы?
-            <span className='register__login-link'>Войти</span>
+            <Link to='/signin' className='register__login-link'>
+              Войти
+            </Link>
           </p>
         </form>
       </div>

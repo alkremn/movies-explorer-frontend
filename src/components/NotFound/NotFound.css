@@ -1,5 +1,6 @@
 .not-found {
   display: flex;
+  height: 100vh;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -25,8 +26,10 @@
   text-align: center;
 }
 
-.not-found__link {
-  text-decoration: none;
+.not-found__button {
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
   font-size: 12px;
   line-height: 15px;
   margin-bottom: 30px;
@@ -35,7 +38,7 @@
 }
 
 @media screen and (min-width: 425px) {
-  .not-found__link {
+  .not-found__button {
     margin-bottom: 122px;
   }
 }
@@ -60,7 +63,7 @@
     text-align: center;
   }
 
-  .not-found__link {
+  .not-found__button {
     margin-bottom: 222px;
     font-size: 14px;
     line-height: 17px;
@@ -68,7 +71,7 @@
 }
 
 @media screen and (min-width: 768px) {
-  .not-found__link {
+  .not-found__button {
     margin-bottom: 60px;
   }
 }

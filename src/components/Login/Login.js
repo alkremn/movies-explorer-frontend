@@ -1,12 +1,15 @@
 import React from "react";
 import "./Login.css";
 import logo from "../../images/logo.svg";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
     <div className='login'>
       <div className='login__content'>
-        <img className='login__logo' src={logo} alt='logo' />
+        <Link to='/'>
+          <img className='login__logo' src={logo} alt='logo' />
+        </Link>
         <h1 className='login__title'>Рады видеть!</h1>
         <form className='login__form' action='' method='POST'>
           <fieldset className='login__form-fieldset'>
@@ -30,7 +33,9 @@ function Login() {
           </button>
           <p className='login__login-text'>
             Ещё не зарегистрированы?
-            <span className='login__login-link'>Регистрация</span>
+            <Link to='/signup' className='login__login-link'>
+              Регистрация
+            </Link>
           </p>
         </form>
       </div>
