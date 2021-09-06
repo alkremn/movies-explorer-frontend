@@ -25,7 +25,7 @@ function Footer() {
             </a>
           </li>
         </ul>
-        <p class='footer__copyright'>&copy;2020</p>
+        <p className='footer__copyright'>&copy;2020</p>
       </div>
     </footer>
   );

@@ -16,6 +16,7 @@
 
 .card__list-button {
   font-weight: 500;
+  cursor: pointer;
   color: #fff;
   padding: 11px 20px 9px;
   border: none;
@@ -28,6 +29,14 @@
   width: calc(100vw - 80px);
   margin: 50px 0 80px;
   max-width: 320px;
+  display: none;
+}
+.card__list-button:hover {
+  opacity: 0.8;
+}
+
+.card__list-button_active {
+  display: block;
 }
 
 @media screen and (min-width: 768px) {

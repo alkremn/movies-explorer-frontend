@@ -1,4 +1,8 @@
 .techs {
+  background-color: #272727;
+  margin: 0;
+}
+.tech__container {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
@@ -61,11 +65,12 @@
 }
 
 @media screen and (min-width: 768px) {
-  .techs {
+  .tech__container {
     width: calc(100vw - 100px);
   }
 
   .techs__title {
+    margin-top: 90px;
     font-size: 22px;
     padding-bottom: 23px;
   }
@@ -88,6 +93,10 @@
 }
 
 @media screen and (min-width: 1024px) {
+  .techs__title {
+    margin-top: 110px;
+  }
+
   .techs__subtitle {
     margin-top: 90px;
   }

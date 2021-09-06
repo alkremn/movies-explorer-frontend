@@ -92,6 +92,7 @@
   }
 
   .about__title {
+    margin-top: 90px;
     font-size: 22px;
     padding-bottom: 23px;
   }
@@ -141,6 +142,10 @@
     flex-direction: row-reverse;
     justify-content: space-between;
     margin: 66px 0 100px;
+  }
+
+  .about__title {
+    margin-top: 110px;
   }
 
   .about__description-container {

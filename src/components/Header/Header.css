@@ -1,6 +1,7 @@
 .header {
   background-color: #073042;
   min-height: 74px;
+  background-color: transparent;
 }
 .header__container {
   width: calc(100vw - 28px);
@@ -10,7 +11,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #073042;
 }
 
 .header__logo {
@@ -107,5 +107,11 @@
 
   .header__menu-link-login {
     margin-left: 18px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .header__hamburger-menu {
+    display: none;
   }
 }

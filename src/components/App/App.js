@@ -13,32 +13,22 @@ import Profile from "../Profile/Profile";
 
 import { Switch, Route, withRouter } from "react-router-dom";
 
-function App({ history }) {
+function App() {
   const [loggedIn, setLoggedIn] = useState(true);
 
   return (
     <div className='page'>
-      {loggedIn && <Header loggedIn={loggedIn} />}
       <Switch>
-        <Route exact path='/signin' component={Login} />
+        <Route path='/signin' component={Login} />
         <Route path='/signup' component={Register} />
-        <ProtectedRoute path='/movies' loggedIn={loggedIn} component={Movies} />
-        <ProtectedRoute
-          path='/saved-movies'
-          loggedIn={loggedIn}
-          component={SavedMovies}
-        />
-        <ProtectedRoute
-          path='/profile'
-          loggedIn={loggedIn}
-          component={Profile}
-        />
         <Route exact path='/'>
           <Main loggedIn={loggedIn} />
         </Route>
+        <Route path='/movies' component={Movies} />
+        <Route path='/saved-movies' component={SavedMovies} />
+        <Route path='/profile' loggedIn={loggedIn} component={Profile} />
         <Route component={NotFound} />
       </Switch>
-      {loggedIn && <Footer />}
     </div>
   );
 }
