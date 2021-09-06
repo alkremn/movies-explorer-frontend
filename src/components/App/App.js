@@ -11,7 +11,7 @@ import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 
-import { Switch, Route, withRouter } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(true);
@@ -22,17 +22,26 @@ function App() {
         <Route path='/signin' component={Login} />
         <Route path='/signup' component={Register} />
         <Route exact path='/'>
+          <Header color='#073042' />
           <Main loggedIn={loggedIn} />
+          <Footer />
         </Route>
-        <Route path='/movies' component={Movies} />
-        <Route path='/saved-movies' component={SavedMovies} />
-        <Route path='/profile'>
-          <Profile loggedIn={loggedIn} />
-        </Route>
+        <ProtectedRoute path='/movies' loggedIn={loggedIn} component={Movies} />
+        <ProtectedRoute
+          path='/saved-movies'
+          loggedIn={loggedIn}
+          component={SavedMovies}
+        />
+        <ProtectedRoute
+          path='/profile'
+          isFooterInvisible={true}
+          loggedIn={loggedIn}
+          component={Profile}
+        />
         <Route component={NotFound} />
       </Switch>
     </div>
   );
 }
 
-export default withRouter(App);
+export default App;

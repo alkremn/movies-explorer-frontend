@@ -20,7 +20,10 @@ function Footer() {
             </a>
           </li>
           <li className='footer__links-item'>
-            <a className='footer__link' href='https://facebook.com'>
+            <a
+              className='footer__link'
+              href='https://www.facebook.com/alexey.kremnev.12'
+            >
               Facebook
             </a>
           </li>

@@ -1,11 +1,9 @@
 import React from "react";
 import "./Profile.css";
-import Header from "../Header/Header";
 
 function Profile({ loggedIn }) {
   return (
-    <div className='profile'>
-      <Header loggedIn={loggedIn} />
+    <section className='profile'>
       <div className='profile__container'>
         <div className='profile__form'>
           <h2 className='profile__form-title'>Привет, Алексей!</h2>
@@ -23,7 +21,7 @@ function Profile({ loggedIn }) {
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

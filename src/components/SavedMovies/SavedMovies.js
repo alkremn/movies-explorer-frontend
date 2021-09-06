@@ -7,12 +7,18 @@ import { cardsData } from "../../utils/cardsData";
 
 function SavedMovies() {
   const [movies, setMovies] = useState(cardsData.slice(1, 4));
+
+  function movieCardDeleteHandler(cardId) {
+    console.log(cardId);
+  }
+
   return (
     <section className='movies'>
-      <Header loggedIn='true' />
       <SearchForm />
-      <MoviesCardList movies={movies} />
-      <Footer />
+      <MoviesCardList
+        movies={movies}
+        onDeleteMovieCard={movieCardDeleteHandler}
+      />
     </section>
   );
 }

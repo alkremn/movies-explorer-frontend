@@ -6,8 +6,6 @@ import Techs from "../Techs/Techs";
 import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
 import Preloader from "../Preloader/Preloader";
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
 
 function Main({ loggedIn }) {
   const sectionRef = useRef(null);
@@ -20,15 +18,13 @@ function Main({ loggedIn }) {
   }
 
   return (
-    <div className='main'>
-      <Header color='#073042' />
+    <section className='main'>
       <Promo onButtonClick={() => buttonClickHandler(sectionRef.current)} />
       <AboutProject sectionRef={sectionRef} />
       <Techs />
       <AboutMe />
       <Portfolio />
-      <Footer />
-    </div>
+    </section>
   );
 }
 

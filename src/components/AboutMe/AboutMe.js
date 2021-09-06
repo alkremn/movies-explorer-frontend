@@ -22,7 +22,10 @@ function AboutMe() {
           </div>
           <ul className='about__links'>
             <li className='about__links-item'>
-              <a className='about__link' href='https://facebook.com'>
+              <a
+                className='about__link'
+                href='https://www.facebook.com/alexey.kremnev.12'
+              >
                 Facebook
               </a>
             </li>

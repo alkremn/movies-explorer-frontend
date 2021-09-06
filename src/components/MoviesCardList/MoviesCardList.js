@@ -5,7 +5,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import { throttle } from "../../utils/utils";
 import { mockComponent } from "react-dom/test-utils";
 
-function MoviesCardList({ movies }) {
+function MoviesCardList({ movies, onDeleteMovieCard }) {
   const [filteredMovies, setFilterdMovies] = useState([]);
   const [isMoreButtonActive, setIsMoreButtonActive] = useState(false);
   const [moviesPageCount, setMoviesPageCount] = useState(5);
@@ -51,7 +51,7 @@ function MoviesCardList({ movies }) {
       <ul className='card__list'>
         {filteredMovies.map((card) => (
           <li key={card.id} className='card__list-item'>
-            <MoviesCard card={card} />
+            <MoviesCard card={card} onDeleteMovieCard={onDeleteMovieCard} />
           </li>
         ))}
       </ul>
