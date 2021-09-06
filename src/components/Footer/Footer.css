@@ -34,6 +34,11 @@
 
 .footer__links-item {
   margin-top: 12px;
+  transition: all 0.2s linear;
+}
+
+.footer__links-item:hover {
+  opacity: 0.7;
 }
 
 .footer__links-item:first-child {

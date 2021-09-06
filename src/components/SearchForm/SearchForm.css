@@ -40,7 +40,14 @@
   border-radius: 48px;
   border: none;
   margin: 7px;
+  cursor: pointer;
+  transition: all 0.2s linear;
 }
+
+.searchForm__submit:hover {
+  opacity: 0.7;
+}
+
 .searchForm__slider-container {
   display: flex;
   width: 148px;

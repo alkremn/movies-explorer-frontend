@@ -2,7 +2,7 @@ import React from "react";
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
-function SearchForm() {
+function SearchForm({onShortMoviesToggle}) {
   return (
     <form className='searchForm'>
       <div className='searchForm__input-container'>
@@ -13,7 +13,7 @@ function SearchForm() {
       </div>
       <div className='searchForm__slider-container'>
         <span className='searchForm__slider-text'>Короткометражки</span>
-        <FilterCheckbox className='searchForm__slider' />
+        <FilterCheckbox className='searchForm__slider' onShortMoviesToggle={onShortMoviesToggle} />
       </div>
     </form>
   );

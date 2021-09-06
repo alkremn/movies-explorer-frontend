@@ -26,7 +26,9 @@ function App() {
         </Route>
         <Route path='/movies' component={Movies} />
         <Route path='/saved-movies' component={SavedMovies} />
-        <Route path='/profile' loggedIn={loggedIn} component={Profile} />
+        <Route path='/profile'>
+          <Profile loggedIn={loggedIn} />
+        </Route>
         <Route component={NotFound} />
       </Switch>
     </div>
