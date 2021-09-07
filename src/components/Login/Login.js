@@ -16,14 +16,19 @@ function Login() {
             <label className='login__input-label' htmlFor='email'>
               E-mail
             </label>
-            <input className='login__input' type='email' id='email' />
+            <input className='login__input' type='email' id='email' required />
             <span className='login__input-error'>Что-то пошло не так...</span>
           </fieldset>
           <fieldset className='login__form-fieldset'>
             <label className='login__input-label' htmlFor='email'>
               Пароль
             </label>
-            <input className='login__input' type='password' id='password' />
+            <input
+              className='login__input'
+              type='password'
+              id='password'
+              required
+            />
             <span className='login__input-error login__input-error_active'>
               Что-то пошло не так...
             </span>
