@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
-
 import { throttle } from "../../utils/utils";
-import { mockComponent } from "react-dom/test-utils";
 
 function MoviesCardList({ movies, onDeleteMovieCard }) {
   const [filteredMovies, setFilterdMovies] = useState([]);

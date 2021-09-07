@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Header.css";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
@@ -11,16 +11,23 @@ function Header({ loggedIn, color }) {
     setMenuActive(!menuActive);
   }
 
+  function closeMenuHandler() {
+    setMenuActive(false);
+  }
+
   return (
     <header className='header' style={{ backgroundColor: color }}>
       <div className='header__container'>
         <Link to='/'>
           <img className='header__logo' src={logo} alt='logo' />
         </Link>
-
         {loggedIn ? (
           <>
-            <Navigation isActive={menuActive} loggedIn={loggedIn} />
+            <Navigation
+              isActive={menuActive}
+              loggedIn={loggedIn}
+              onClose={closeMenuHandler}
+            />
             <button
               className={`header__hamburger-menu ${
                 menuActive ? "header__hamburger-menu_active" : ""

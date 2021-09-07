@@ -54,5 +54,6 @@
     grid-template-columns: repeat(4, auto);
     column-gap: 30px;
     row-gap: 36px;
+    padding: 70px 0 30px;
   }
 }

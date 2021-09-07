@@ -35,9 +35,13 @@
   padding: 0;
   background-color: transparent;
   border: none;
-  z-index: 1;
   cursor: pointer;
   transition: all 0.2s linear;
+}
+
+.header__hamburger-menu_open {
+  align-self: flex-end;
+  margin: 29px 29px 0 0;
 }
 
 .header__hamburger-menu:hover {

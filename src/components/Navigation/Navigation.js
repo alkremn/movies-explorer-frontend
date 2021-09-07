@@ -2,9 +2,23 @@ import React from "react";
 import "./Navigation.css";
 import { NavLink } from "react-router-dom";
 
-function Navigation({ isActive, onMenuClick }) {
+function Navigation({ isActive, onClose }) {
+  function closeNavigationHandler() {
+    onClose();
+  }
+
   return (
     <div className={`navigation ${isActive ? "navigation_visable" : ""}`}>
+      <button
+        className={`header__hamburger-menu header__hamburger-menu_open ${
+          isActive ? "header__hamburger-menu_active" : ""
+        }`}
+        onClick={closeNavigationHandler}
+      >
+        <div />
+        <div />
+        <div />
+      </button>
       <ul className='navigation__links'>
         <li className='navigation__links-item mavigation__links-item_main'>
           <NavLink
@@ -12,6 +26,7 @@ function Navigation({ isActive, onMenuClick }) {
             exact
             to='/'
             activeClassName='navigation__link-active'
+            onClick={closeNavigationHandler}
           >
             Главная
           </NavLink>
@@ -21,6 +36,7 @@ function Navigation({ isActive, onMenuClick }) {
             className='navigation__link'
             to='/movies'
             activeClassName='navigation__link-active'
+            onClick={closeNavigationHandler}
           >
             Фильмы
           </NavLink>
@@ -30,6 +46,7 @@ function Navigation({ isActive, onMenuClick }) {
             className='navigation__link'
             to='/saved-movies'
             activeClassName='navigation__link-active'
+            onClick={closeNavigationHandler}
           >
             Сохранённые фильмы
           </NavLink>
@@ -39,6 +56,7 @@ function Navigation({ isActive, onMenuClick }) {
         className='navigation__profile-link'
         activeClassName='navigation__link-active'
         to='/profile'
+        onClick={closeNavigationHandler}
       >
         Аккаунт
       </NavLink>

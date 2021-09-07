@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import Header from "../Header/Header";
@@ -14,7 +14,7 @@ import Profile from "../Profile/Profile";
 import { Switch, Route } from "react-router-dom";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn] = useState(true);
 
   return (
     <div className='page'>
