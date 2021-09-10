@@ -1,0 +1,141 @@
+.navigation {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #202020;
+  z-index: 1;
+  padding-left: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  right: -100%;
+  opacity: 0;
+  transition: all 0.35s linear;
+}
+
+.navigation_visable {
+  right: 0;
+  opacity: 1;
+}
+
+.navigation__top-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.navigation__links {
+  margin: 144px 0 0;
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigation__links-item {
+  margin-top: 24px;
+  transition: all 0.2s linear;
+}
+
+.navigation__links-item:hover {
+  opacity: 0.7;
+}
+
+.navigation__links-item:first-child {
+  margin-top: 0;
+}
+
+.navigation__link {
+  color: #fff;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  padding: 7px 0;
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+.navigation__link-active {
+  border-bottom: 2px solid #fff;
+  font-weight: 500;
+  opacity: 1;
+}
+
+.navigation__profile-link {
+  margin-bottom: 46px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  text-decoration: none;
+  padding: 7px 0;
+  display: flex;
+  border: 2px solid rgba(170, 170, 170, 0.2);
+  border-radius: 50px;
+  padding: 8px 12px;
+  transition: all 0.2s linear;
+}
+
+.navigation__profile-link:hover {
+  opacity: 0.7;
+}
+
+.navigation__profile-link::before {
+  width: 12px;
+  height: 14px;
+  content: "";
+  background-image: url("../../images/account_icon.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 7px;
+}
+
+@media screen and (min-width: 768px) {
+  .navigation {
+    width: 520px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .navigation {
+    background: transparent;
+    position: static;
+    z-index: 0;
+    padding-left: 0;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    opacity: 1;
+    flex-direction: row;
+  }
+  .navigation__links {
+    flex: 1;
+    margin: 0;
+    flex-direction: row;
+  }
+  .mavigation__links-item_main {
+    display: none;
+  }
+
+  .navigation__links-item {
+    margin: 0 0 0 16px;
+  }
+
+  .navigation__link-active {
+    border-bottom: none;
+  }
+
+  .navigation__link {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .navigation__profile-link {
+    margin: 0;
+  }
+}
