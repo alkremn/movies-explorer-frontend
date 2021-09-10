@@ -1,0 +1,40 @@
+.form-field {
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 10px 0 0;
+}
+.form-field__label {
+  color: #8b8b8b;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.form-field__input {
+  background-color: #2f2f2f;
+  color: #fff;
+  font-size: 13px;
+  line-height: 16px;
+  border: none;
+  height: 46px;
+  padding: 0 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.form-field__input:focus {
+  outline: none;
+  border: 1.5px solid rgba(171, 171, 171, 0.2);
+}
+.form-field__error {
+  font-size: 10px;
+  line-height: 12px;
+  color: #ee3465;
+  margin-top: 10px;
+  visibility: hidden;
+}
+
+.form-field__error_active {
+  visibility: visible;
+}

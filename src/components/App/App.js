@@ -11,16 +11,30 @@ import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, withRouter } from "react-router-dom";
 
-function App() {
-  const [loggedIn] = useState(true);
+function App({ history }) {
+  const [loggedIn] = useState(false);
+
+  function registerHandler(values) {
+    console.log(values);
+    history.push("/signin");
+  }
+
+  function loginHandler(values) {
+    console.log(values);
+    history.push("/movies");
+  }
 
   return (
     <div className='page'>
       <Switch>
-        <Route path='/signin' component={Login} />
-        <Route path='/signup' component={Register} />
+        <Route path='/signin'>
+          <Login loggedIn={loggedIn} onLogin={loginHandler} />
+        </Route>
+        <Route path='/signup'>
+          <Register loggedIn={loggedIn} onRegister={registerHandler} />
+        </Route>
         <Route exact path='/'>
           <Header color='#073042' />
           <Main loggedIn={loggedIn} />
@@ -44,4 +58,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App);

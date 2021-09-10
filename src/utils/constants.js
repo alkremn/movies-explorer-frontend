@@ -1,3 +1,5 @@
+import * as yup from "yup";
+
 export const mainUrl = "https://api.akrem.movies-explorer.nomoredomains.rocks";
 export const moviesFetchUrl = "https://api.nomoreparties.co/beatfilm-movies";
 export const testCreds = {
@@ -5,3 +7,26 @@ export const testCreds = {
   password: "ALALALAasdf",
   name: "Alexey Kremenv",
 };
+
+export const registerValidationSchema = yup.object().shape({
+  name: yup.string().required("Обязательное Поле"),
+  email: yup
+    .string()
+    .email("Введите валидный имеил")
+    .required("Обязательное Поле"),
+  password: yup
+    .string()
+    .min(8, "Минимум 8 символов")
+    .required("Обязательное Поле"),
+});
+
+export const loginValidationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Введите валидный имеил")
+    .required("Обязательное Поле"),
+  password: yup
+    .string()
+    .min(8, "Минимум 8 символов")
+    .required("Обязательное Поле"),
+});
