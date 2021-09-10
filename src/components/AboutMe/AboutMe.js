@@ -7,7 +7,7 @@ function AboutMe() {
     <section className='about'>
       <h2 className='about__title'>Студент</h2>
       <div className='about__container'>
-        <img className='about__image' src={image} alt='about' />
+        <img className='about__image' src={image} alt='автор' />
         <div className='about__description-container'>
           <div className='about__text-container'>
             <h3 className='about__name'>Алексей</h3>
@@ -15,8 +15,8 @@ function AboutMe() {
             <p className='about__description'>
               Родом из Санкт Петербурга, живу и работаю сейчас в США. Закончил
               Western Governors University по направлению Computer Science.
-              Женат, есть маленькая дочка. Увлекаюсь спортзалом, теннисом, веб-разработкой и
-              программированием на С++.
+              Женат, есть маленькая дочка. Увлекаюсь спортзалом, теннисом,
+              веб-разработкой и программированием на С++.
             </p>
           </div>
           <ul className='about__links'>

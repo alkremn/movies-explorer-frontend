@@ -21,6 +21,12 @@
   opacity: 1;
 }
 
+.navigation__top-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .navigation__links {
   margin: 144px 0 0;
   list-style: none;

@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
 }
+
 .searchForm__input {
   width: 100%;
   color: #8b8b8b;
@@ -23,6 +24,7 @@
   background-color: transparent;
   border: none;
 }
+
 .searchForm__input:focus {
   outline: none;
 }
@@ -40,6 +42,9 @@
   margin: 7px;
   cursor: pointer;
   transition: all 0.2s linear;
+}
+.searchForm__submit:focus {
+  outline: none;
 }
 
 .searchForm__submit:hover {

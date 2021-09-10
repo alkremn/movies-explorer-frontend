@@ -4,7 +4,7 @@ import "./MoviesCard.css";
 function MoviesCard({ card, onDeleteMovieCard }) {
   return (
     <div className='movies-card'>
-      <img className='movies-card__image' src={card.url} alt='' />
+      <img className='movies-card__image' src={card.url} alt={card.title} />
       <div className='movies-card__info'>
         <div className='movies-card__info-top'>
           <h2 className='movies-card__info-title'>{card.title}</h2>
