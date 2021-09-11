@@ -19,11 +19,11 @@ function MoviesCard({ card, onDeleteMovieCard }) {
               onClick={() => onDeleteMovieCard(card.id)}
             ></button>
           ) : (
-            <div
-              className={`movies-card__info-icon ${
+            <button
+              className={`movies-card__like-button ${
                 card.isShortFilm ? "movies-card__info-icon-active" : ""
               }`}
-            ></div>
+            ></button>
           )}
         </div>
         <p className='movies-card__duration'>{card.duration}</p>
