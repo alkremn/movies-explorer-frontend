@@ -1,6 +1,6 @@
 import { mainUrl } from "./constants";
 
-export default class MainApi {
+class MainApi {
   constructor(token) {
     this.baseUrl = mainUrl;
     this.token = token;
@@ -32,3 +32,5 @@ export default class MainApi {
     );
   }
 }
+
+export default new MainApi();

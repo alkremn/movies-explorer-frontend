@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import "./Movies.css";
-import { cardsData } from "../../utils/cardsData";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 
-function Movies({ loggedIn }) {
-  const [movies] = useState(cardsData);
+function Movies({ loggedIn, movies }) {
   const [isShortMovies, setIsShortMovies] = useState(false);
 
   function shortMoviesToggleHandler() {

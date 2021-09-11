@@ -16,6 +16,7 @@ import Preloader from "../Preloader/Preloader";
 
 // Api
 import authApi from "../../utils/AuthApi";
+import moviesApi from "../../utils/MoviesApi";
 
 // Context
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
@@ -28,6 +29,7 @@ function App({ history }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState();
+  const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -43,10 +45,25 @@ function App({ history }) {
   }, []);
 
   useEffect(() => {
+    if (loggedIn) {
+      fetchData();
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
     setTimeout(() => {
       setServerError(null);
     }, 10000);
   }, [serverError]);
+
+  function fetchData() {
+    setIsLoading(true);
+    moviesApi
+      .fetchMovies()
+      .then((movies) => setMovies(movies))
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }
 
   function registerHandler(values) {
     setIsLoading(true);
@@ -84,6 +101,7 @@ function App({ history }) {
     localStorage.removeItem("jwt");
     setCurrentUser(null);
     setLoggedIn(false);
+    setMovies([]);
   }
 
   return (
@@ -112,6 +130,7 @@ function App({ history }) {
           <ProtectedRoute
             path='/movies'
             loggedIn={loggedIn}
+            movies={movies}
             component={Movies}
           />
           <ProtectedRoute
