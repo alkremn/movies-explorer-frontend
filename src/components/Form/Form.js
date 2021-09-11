@@ -10,12 +10,20 @@ function Form({
   bottomText,
   bottomLink,
   bottomTitle,
+  serverError,
   children,
 }) {
   return (
     <form className='form' method='POST' onSubmit={onSubmit}>
       <div className='form__top'>{children}</div>
       <div className='form__bottom'>
+        <p
+          className={`form__server-error ${
+            serverError ? "form__server-error_active" : ""
+          }`}
+        >
+          {serverError}
+        </p>
         <button
           className={`form__submit-button ${
             isValid && dirty ? " " : "form__submit-button_disabled"

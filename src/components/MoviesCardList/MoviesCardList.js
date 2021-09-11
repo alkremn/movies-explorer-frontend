@@ -34,7 +34,6 @@ function MoviesCardList({ movies, onDeleteMovieCard }) {
   useEffect(() => {
     if (filteredMovies.length < movies.length) {
       setIsMoreButtonActive(true);
-      console.log("asdf");
     } else {
       setIsMoreButtonActive(false);
     }

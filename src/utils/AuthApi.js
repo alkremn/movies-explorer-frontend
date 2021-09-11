@@ -8,7 +8,7 @@ class AuthApi {
     return fetch(url, {
       method,
       headers: {
-        authorization: token ? `Barer ${token}` : "",
+        authorization: token ? `Bearer ${token}` : "",
         "Content-Type": "application/json",
       },
       body,
@@ -19,7 +19,8 @@ class AuthApi {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
+
+    return res.json().then((err) => Promise.reject(err.error));
   }
 
   register({ email, password, name }) {

@@ -4,8 +4,30 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 50vh;
+  height: fit-content;
   width: 100%;
+}
+
+.form__server-error {
+  background-color: #dc3545;
+  border-radius: 5px;
+  min-height: 20px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 0;
+  margin: 20px 0 40px;
+  visibility: hidden;
+  transform: translateY(-80%);
+  opacity: 0;
+  transition: all 0.3s linear;
+}
+
+.form__server-error_active {
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .form-field:first-child {

@@ -8,13 +8,7 @@ import Form from "../Form/Form";
 import FormField from "../FormField/FormField";
 import { Formik } from "formik";
 
-const initialvalues = {
-  name: "",
-  email: "",
-  password: "",
-};
-
-function Register({ loggedIn, onRegister }) {
+function Register({ loggedIn, onRegister, serverError }) {
   const history = useHistory();
   useEffect(() => {
     if (loggedIn) {
@@ -30,7 +24,7 @@ function Register({ loggedIn, onRegister }) {
         </Link>
         <h1 className='register__title'>Добро пожаловать!</h1>
         <Formik
-          initialValues={initialvalues}
+          initialValues={{ name: "", email: "", password: "" }}
           validationSchema={registerValidationSchema}
           onSubmit={(values) => {
             onRegister(values);
@@ -54,6 +48,7 @@ function Register({ loggedIn, onRegister }) {
               bottomText='Уже зарегистрированы?'
               bottomLink='/signin'
               bottomTitle='Войти'
+              serverError={serverError}
             >
               <FormField
                 title='Имя'

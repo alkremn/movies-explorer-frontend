@@ -26,13 +26,13 @@ function FormField({
         onBlur={onBlur}
         required
       />
-      <span
+      <p
         className={`form-field__error ${
           error ? "form-field__error_active" : ""
         }`}
       >
         {error && touched && error}
-      </span>
+      </p>
     </fieldset>
   );
 }

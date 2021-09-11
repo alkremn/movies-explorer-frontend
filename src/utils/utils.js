@@ -8,3 +8,7 @@ export function throttle(func, timeFrame) {
     }
   };
 }
+
+export function getFirstName(fullName) {
+  return fullName.split(" ")[0];
+}
