@@ -12,6 +12,7 @@ import NotFound from "../NotFound/NotFound";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
+import MovieCardPopup from "../MovieCardPopup/MovieCardPopup";
 import Preloader from "../Preloader/Preloader";
 
 // Api
@@ -26,13 +27,21 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { Switch, Route, withRouter } from "react-router-dom";
 
 function App({ history }) {
+  // Auth
   const [currentUser, setCurrentUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [serverError, setServerError] = useState();
+
+  // Movies
   const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
+  // Other
+  const [isMoviePopupOpen, setIsMoviePopupOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [serverError, setServerError] = useState();
+
+  // UseEffects
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -58,6 +67,7 @@ function App({ history }) {
     }, 10000);
   }, [serverError]);
 
+  // Functions
   function fetchData() {
     setIsLoading(true);
     Promise.all([moviesApi.fetchMovies(), mainApi.getAllSavedMovies()])
@@ -109,6 +119,11 @@ function App({ history }) {
     setSavedMovies([]);
   }
 
+  function moviePopupOpenHandler(movieCard) {
+    setSelectedMovie(movieCard);
+    setIsMoviePopupOpen(true);
+  }
+
   function likeMovieCardHandler(movieCard) {
     const savedMovie = savedMovies.find(
       (movie) => movie.movieId === movieCard.id
@@ -128,17 +143,30 @@ function App({ history }) {
       .catch((err) => console.log(err));
   }
 
-  function deleteMovieCardHandler(cardId) {
+  function deleteMovieCardHandler(movieCardId) {
     mainApi
-      .removeSavedMovie(cardId)
-      .then((_) =>
-        setSavedMovies([...savedMovies.filter((movie) => movie._id !== cardId)])
+      .removeSavedMovie(movieCardId)
+      .then(() =>
+        setSavedMovies([
+          ...savedMovies.filter((movie) => movie._id !== movieCardId),
+        ])
       )
       .catch((err) => console.log(err));
   }
 
+  function handleCloseClick(e) {
+    const classList = e.target.classList;
+    if (classList.contains("popup")) {
+      closeAllPopups();
+    }
+  }
+
+  function closeAllPopups() {
+    setIsMoviePopupOpen(false);
+  }
+
   return (
-    <div className='page'>
+    <div className='page' onClick={handleCloseClick}>
       <CurrentUserContext.Provider value={currentUser}>
         <Switch>
           <Route path='/signin'>
@@ -166,6 +194,7 @@ function App({ history }) {
             movies={movies}
             savedMovies={savedMovies}
             onLikeMovieCard={likeMovieCardHandler}
+            onMoviePopupOpen={moviePopupOpenHandler}
             component={Movies}
           />
           <ProtectedRoute
@@ -173,6 +202,7 @@ function App({ history }) {
             loggedIn={loggedIn}
             savedMovies={savedMovies}
             onDeleteMovieCard={deleteMovieCardHandler}
+            onMoviePopupOpen={moviePopupOpenHandler}
             component={SavedMovies}
           />
           <ProtectedRoute
@@ -185,6 +215,7 @@ function App({ history }) {
           />
           <Route component={NotFound} />
         </Switch>
+        <MovieCardPopup isOpen={isMoviePopupOpen} onClose={closeAllPopups} />
         {isLoading && <Preloader />}
       </CurrentUserContext.Provider>
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 
-function SavedMovies({ savedMovies, onDeleteMovieCard }) {
+function SavedMovies({ savedMovies, onDeleteMovieCard, onMoviePopupOpen }) {
   const [isShortMovies, setIsShortMovies] = useState(false);
 
   function shortMoviesToggleHandler() {
@@ -16,6 +16,7 @@ function SavedMovies({ savedMovies, onDeleteMovieCard }) {
         movies={savedMovies}
         savedMovies={[]}
         onDeleteMovieCard={onDeleteMovieCard}
+        onMoviePopupOpen={onMoviePopupOpen}
       />
     </section>
   );

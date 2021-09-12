@@ -7,9 +7,10 @@ function MoviesCard({
   isSavedMovie,
   onDeleteMovieCard,
   onLikeMovieCard,
+  onMoviePopupOpen,
 }) {
   return (
-    <div className='movies-card'>
+    <div className='movies-card' onClick={() => onMoviePopupOpen(card)}>
       <img
         className='movies-card__image'
         src={

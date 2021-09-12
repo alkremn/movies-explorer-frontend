@@ -3,7 +3,7 @@ import "./Movies.css";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 
-function Movies({ movies, savedMovies, onLikeMovieCard }) {
+function Movies({ movies, savedMovies, onLikeMovieCard, onMoviePopupOpen }) {
   const [isShortMovies, setIsShortMovies] = useState(false);
 
   function shortMoviesToggleHandler() {
@@ -17,6 +17,7 @@ function Movies({ movies, savedMovies, onLikeMovieCard }) {
         movies={movies}
         savedMovies={savedMovies}
         onLikeMovieCard={onLikeMovieCard}
+        onMoviePopupOpen={onMoviePopupOpen}
       />
     </section>
   );
