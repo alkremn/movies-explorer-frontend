@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 export const mainUrl = "https://api.akrem.movies-explorer.nomoredomains.rocks";
-export const moviesFetchUrl = "https://api.nomoreparties.co";
+export const moviesBaseUrl = "https://api.nomoreparties.co";
 export const testCreds = {
   email: "alexk@zyto.com",
   password: "ALALALAasdf",

@@ -3,7 +3,12 @@ import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { throttle } from "../../utils/utils";
 
-function MoviesCardList({ movies, onDeleteMovieCard }) {
+function MoviesCardList({
+  movies,
+  savedMovies,
+  onDeleteMovieCard,
+  onLikeMovieCard,
+}) {
   const [filteredMovies, setFilterdMovies] = useState([]);
   const [isMoreButtonActive, setIsMoreButtonActive] = useState(false);
   const [moviesPageCount, setMoviesPageCount] = useState(5);
@@ -47,8 +52,18 @@ function MoviesCardList({ movies, onDeleteMovieCard }) {
     <div className='card__list-container'>
       <ul className='card__list'>
         {filteredMovies.map((card) => (
-          <li key={card.id} className='card__list-item'>
-            <MoviesCard card={card} onDeleteMovieCard={onDeleteMovieCard} />
+          <li
+            key={onDeleteMovieCard ? card._id : card.id}
+            className='card__list-item'
+          >
+            <MoviesCard
+              card={card}
+              isSavedMovie={savedMovies.some(
+                (savedMove) => savedMove.movieId === card.id
+              )}
+              onDeleteMovieCard={onDeleteMovieCard}
+              onLikeMovieCard={onLikeMovieCard}
+            />
           </li>
         ))}
       </ul>

@@ -16,6 +16,7 @@ import Preloader from "../Preloader/Preloader";
 
 // Api
 import authApi from "../../utils/AuthApi";
+import mainApi from "../../utils/MainApi";
 import moviesApi from "../../utils/MoviesApi";
 
 // Context
@@ -30,6 +31,7 @@ function App({ history }) {
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState();
   const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -58,9 +60,11 @@ function App({ history }) {
 
   function fetchData() {
     setIsLoading(true);
-    moviesApi
-      .fetchMovies()
-      .then((movies) => setMovies(movies))
+    Promise.all([moviesApi.fetchMovies(), mainApi.getAllSavedMovies()])
+      .then(([movies, savedMovies]) => {
+        setMovies(movies);
+        setSavedMovies(savedMovies);
+      })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }
@@ -102,6 +106,35 @@ function App({ history }) {
     setCurrentUser(null);
     setLoggedIn(false);
     setMovies([]);
+    setSavedMovies([]);
+  }
+
+  function likeMovieCardHandler(movieCard) {
+    const savedMovie = savedMovies.find(
+      (movie) => movie.movieId === movieCard.id
+    );
+
+    if (savedMovie) {
+      deleteMovieCardHandler(savedMovie._id);
+    } else {
+      createMovieCardHandler(movieCard);
+    }
+  }
+
+  function createMovieCardHandler(movie) {
+    mainApi
+      .createMovie(movie)
+      .then((newMovie) => setSavedMovies([...savedMovies, newMovie]))
+      .catch((err) => console.log(err));
+  }
+
+  function deleteMovieCardHandler(cardId) {
+    mainApi
+      .removeSavedMovie(cardId)
+      .then((_) =>
+        setSavedMovies([...savedMovies.filter((movie) => movie._id !== cardId)])
+      )
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -131,11 +164,15 @@ function App({ history }) {
             path='/movies'
             loggedIn={loggedIn}
             movies={movies}
+            savedMovies={savedMovies}
+            onLikeMovieCard={likeMovieCardHandler}
             component={Movies}
           />
           <ProtectedRoute
             path='/saved-movies'
             loggedIn={loggedIn}
+            savedMovies={savedMovies}
+            onDeleteMovieCard={deleteMovieCardHandler}
             component={SavedMovies}
           />
           <ProtectedRoute

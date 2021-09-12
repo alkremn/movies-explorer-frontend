@@ -1,13 +1,22 @@
 import React from "react";
 import "./MoviesCard.css";
-import { moviesFetchUrl } from "../../utils/constants";
+import { moviesBaseUrl } from "../../utils/constants";
 
-function MoviesCard({ card, onDeleteMovieCard }) {
+function MoviesCard({
+  card,
+  isSavedMovie,
+  onDeleteMovieCard,
+  onLikeMovieCard,
+}) {
   return (
     <div className='movies-card'>
       <img
         className='movies-card__image'
-        src={`${moviesFetchUrl}${card.image.url}`}
+        src={
+          onDeleteMovieCard
+            ? card.thumbnail
+            : `${moviesBaseUrl}${card.image.formats.thumbnail.url}`
+        }
         alt={card.nameRU}
       />
       <div className='movies-card__info'>
@@ -16,14 +25,15 @@ function MoviesCard({ card, onDeleteMovieCard }) {
           {onDeleteMovieCard ? (
             <button
               className='movies-card__delete-button'
-              onClick={() => onDeleteMovieCard(card.id)}
+              onClick={() => onDeleteMovieCard(card._id)}
             ></button>
           ) : (
             <button
               className={`movies-card__like-button ${
-                card.isShortFilm ? "movies-card__info-icon-active" : ""
+                isSavedMovie ? "movies-card__info-icon-active" : ""
               }`}
-            ></button>
+              onClick={() => onLikeMovieCard(card)}
+            />
           )}
         </div>
         <p className='movies-card__duration'>{card.duration}</p>

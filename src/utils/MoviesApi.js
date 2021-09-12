@@ -1,4 +1,4 @@
-import { moviesFetchUrl } from "../utils/constants";
+import { moviesBaseUrl } from "../utils/constants";
 
 class MoviesApi {
   constructor(baseUrl) {
@@ -20,4 +20,4 @@ class MoviesApi {
   }
 }
 
-export default new MoviesApi(moviesFetchUrl);
+export default new MoviesApi(moviesBaseUrl);

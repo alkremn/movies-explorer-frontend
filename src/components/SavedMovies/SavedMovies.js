@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
-import { cardsData } from "../../utils/cardsData";
 
-function SavedMovies() {
-  const [movies] = useState(cardsData.slice(1, 4));
+function SavedMovies({ savedMovies, onDeleteMovieCard }) {
+  const [isShortMovies, setIsShortMovies] = useState(false);
 
-  function movieCardDeleteHandler(cardId) {
-    console.log(cardId);
+  function shortMoviesToggleHandler() {
+    setIsShortMovies(!isShortMovies);
   }
 
   return (
     <section className='movies'>
-      <SearchForm />
+      <SearchForm onShortMoviesToggle={shortMoviesToggleHandler} />
       <MoviesCardList
-        movies={movies}
-        onDeleteMovieCard={movieCardDeleteHandler}
+        movies={savedMovies}
+        savedMovies={[]}
+        onDeleteMovieCard={onDeleteMovieCard}
       />
     </section>
   );
