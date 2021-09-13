@@ -9,6 +9,12 @@ export function throttle(func, timeFrame) {
   };
 }
 
+export function formatDuration(duration) {
+  const hours = Math.floor(duration / 60);
+  const mins = duration % 60;
+  return `${hours}ч ${mins}м`;
+}
+
 export function getFirstName(fullName) {
   return fullName.split(" ")[0];
 }

@@ -10,7 +10,12 @@ function MoviesCard({
   onMoviePopupOpen,
 }) {
   return (
-    <div className='movies-card' onClick={() => onMoviePopupOpen(card)}>
+    <div
+      className='movies-card'
+      onClick={(e) =>
+        onMoviePopupOpen(e, card, onDeleteMovieCard ? true : false)
+      }
+    >
       <img
         className='movies-card__image'
         src={

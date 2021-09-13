@@ -8,7 +8,7 @@ function MoviesCardList({
   savedMovies,
   onDeleteMovieCard,
   onLikeMovieCard,
-  onMoviePopupOpen
+  onMoviePopupOpen,
 }) {
   const [filteredMovies, setFilterdMovies] = useState([]);
   const [isMoreButtonActive, setIsMoreButtonActive] = useState(false);

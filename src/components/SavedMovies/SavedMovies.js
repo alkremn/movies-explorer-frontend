@@ -14,7 +14,7 @@ function SavedMovies({ savedMovies, onDeleteMovieCard, onMoviePopupOpen }) {
       <SearchForm onShortMoviesToggle={shortMoviesToggleHandler} />
       <MoviesCardList
         movies={savedMovies}
-        savedMovies={[]}
+        savedMovies={savedMovies}
         onDeleteMovieCard={onDeleteMovieCard}
         onMoviePopupOpen={onMoviePopupOpen}
       />

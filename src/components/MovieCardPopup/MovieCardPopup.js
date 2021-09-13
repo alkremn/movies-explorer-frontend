@@ -1,7 +1,9 @@
 import React from "react";
 import "./MovieCardPopup.css";
+import { moviesBaseUrl } from "../../utils/constants";
+import { formatDuration } from "../../utils/utils";
 
-function MovieCardPopup({ isOpen, movieCard, onClose }) {
+function MovieCardPopup({ isOpen, movieCard, isSaved, onClose }) {
   return (
     <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
       <div className='popup__container'>
@@ -10,34 +12,40 @@ function MovieCardPopup({ isOpen, movieCard, onClose }) {
           type='button'
           onClick={onClose}
         />
-        <h2 className='popup__title'>«Роллинг Стоунз» в изгнании</h2>
-        <div className='popup__info'>
-          <p>2004</p>
-          <p>1ч42м</p>
-          <p>США</p>
-        </div>
-        <iframe
-          title='trailer'
-          height='350px'
-          width='100%'
-          src='https://www.youtube.com/embed/UXcqcdYABFw'
-          frameBorder='0'
-          allow='autoplay; encrypted-media'
-          allowFullScreen
-        ></iframe>
-        <p>
-          Режиссёр <span>Стивен Кайак</span>
+        <h2 className='popup__title'>{movieCard?.nameRU}</h2>
+        <ul className='popup__info-list'>
+          <li className='popup__info-list_item'>
+            <p>{movieCard?.year}</p>
+          </li>
+          <li className='popup__info-list_item'>
+            <p>{movieCard && formatDuration(movieCard.duration)}</p>
+          </li>
+          <li className='popup__info-list_item'>
+            <p>{movieCard?.country}</p>
+          </li>
+        </ul>
+        <img
+          className='popup__image'
+          src={
+            isSaved
+              ? movieCard?.image
+              : `${moviesBaseUrl}${movieCard?.image.formats.thumbnail.url}`
+          }
+          alt={movieCard?.nameRU}
+        />
+        <p className='popup__director'>
+          Режиссёр{" "}
+          <span className='popup__director-name'>{movieCard?.director}</span>
         </p>
-        <p>
-          "В конце 1960-х группа «Роллинг Стоунз», несмотря на все свои мегахиты
-          и сверхуспешные концертные туры, была разорена. Виной всему —
-          бездарный менеджмент и драконовское налогообложение в Британии. Тогда
-          музыканты приняли не самое простое для себя решение: летом 1971 года
-          после выхода альбома «Stiсky Fingers» они отправились на юг Франции
-          записывать новую пластинку. Именно там, на Лазурном Берегу, в
-          арендованном Китом Ричардсом подвале виллы Неллькот родился сборник
-          «Exile on Main St.», который стал лучшим альбомом легендарной группы.
-        </p>
+        <p className='popup__description'>{movieCard?.description}</p>
+        <a
+          className='popup__link'
+          href={isSaved ? movieCard?.trailer : movieCard?.trailerLink}
+          rel='noreferrer'
+          target='_blank'
+        >
+          Посмотреть трейлер
+        </a>
       </div>
     </div>
   );

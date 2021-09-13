@@ -119,9 +119,15 @@ function App({ history }) {
     setSavedMovies([]);
   }
 
-  function moviePopupOpenHandler(movieCard) {
-    setSelectedMovie(movieCard);
-    setIsMoviePopupOpen(true);
+  function moviePopupOpenHandler(e, movieCard, isSaved) {
+    const classList = e.target.classList;
+    if (
+      !classList.contains("movies-card__like-button") &&
+      !classList.contains("movies-card__delete-button")
+    ) {
+      setSelectedMovie({ movieCard, isSaved });
+      setIsMoviePopupOpen(true);
+    }
   }
 
   function likeMovieCardHandler(movieCard) {
@@ -215,7 +221,12 @@ function App({ history }) {
           />
           <Route component={NotFound} />
         </Switch>
-        <MovieCardPopup isOpen={isMoviePopupOpen} onClose={closeAllPopups} />
+        <MovieCardPopup
+          isOpen={isMoviePopupOpen}
+          movieCard={selectedMovie?.movieCard}
+          isSaved={selectedMovie?.isSaved}
+          onClose={closeAllPopups}
+        />
         {isLoading && <Preloader />}
       </CurrentUserContext.Provider>
     </div>

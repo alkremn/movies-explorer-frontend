@@ -59,7 +59,7 @@
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 50%;
-  border: 1.5px solid rgba(171, 171, 171, 0.2);
+  border: none;
   transition: all 0.2s linear;
   cursor: pointer;
 }
