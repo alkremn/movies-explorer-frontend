@@ -18,3 +18,38 @@ export function formatDuration(duration) {
 export function getFirstName(fullName) {
   return fullName.split(" ")[0];
 }
+
+export function filterMovies(movies, searchTerm, isShortMovie) {
+  const filteredMovies = [];
+
+  if (isShortMovie) {
+    filteredMovies.push(...getShortMovies(movies));
+  } else {
+    filteredMovies.push(...movies);
+  }
+
+  console.log(filteredMovies);
+
+  return filteredMovies.filter((movie) => {
+    return (
+      movie.nameRU?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      movie.director?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+}
+
+export function getShortMovies(movies) {
+  return movies.filter((movie) => movie.duration <= 40);
+}
+
+export function saveMoviesInLocalStorage(movies) {
+  localStorage.setItem("movies", JSON.stringify(movies));
+}
+
+export function getMoviesFromLocalStorage() {
+  return JSON.parse(localStorage.getItem("movies"));
+}
+
+export function clearMoviesFromLocalStorage() {
+  localStorage.removeItem("movies");
+}

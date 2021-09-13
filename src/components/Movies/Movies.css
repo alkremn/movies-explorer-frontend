@@ -3,6 +3,8 @@
   min-height: calc(100vh - 329px);
 }
 
+
+
 @media screen and (min-width: 1024px) {
   .movies {
     margin-top: 80px;

@@ -9,6 +9,8 @@ function MoviesCardList({
   onDeleteMovieCard,
   onLikeMovieCard,
   onMoviePopupOpen,
+  isErrorOccurred,
+  isListEmpty,
 }) {
   const [filteredMovies, setFilterdMovies] = useState([]);
   const [isMoreButtonActive, setIsMoreButtonActive] = useState(false);
@@ -17,13 +19,13 @@ function MoviesCardList({
   useEffect(() => {
     const callback = throttle(() => {
       if (window.outerWidth < 768) {
-        setMoviesPageCount(5);
+        setMoviesPageCount(1);
         setFilterdMovies(movies.slice(0, 5));
       } else if (window.outerWidth < 1024) {
-        setMoviesPageCount(8);
+        setMoviesPageCount(2);
         setFilterdMovies(movies.slice(0, 8));
       } else {
-        setMoviesPageCount(16);
+        setMoviesPageCount(4);
         setFilterdMovies(movies.slice(0, 16));
       }
     }, 1000);
@@ -51,32 +53,44 @@ function MoviesCardList({
 
   return (
     <div className='card__list-container'>
-      <ul className='card__list'>
-        {filteredMovies.map((card) => (
-          <li
-            key={onDeleteMovieCard ? card._id : card.id}
-            className='card__list-item'
+      {isErrorOccurred ? (
+        <p className='movies__list-text'>
+          Во время запроса произошла ошибка. <br />
+          Возможно, проблема с соединением или сервер недоступен. Подождите
+          немного и попробуйте ещё раз
+        </p>
+      ) : isListEmpty ? (
+        <p className='movies__list-text'>Ничего не найдено</p>
+      ) : (
+        <>
+          <ul className='card__list'>
+            {filteredMovies.map((card) => (
+              <li
+                key={onDeleteMovieCard ? card._id : card.id}
+                className='card__list-item'
+              >
+                <MoviesCard
+                  card={card}
+                  isSavedMovie={savedMovies.some(
+                    (savedMove) => savedMove.movieId === card.id
+                  )}
+                  onDeleteMovieCard={onDeleteMovieCard}
+                  onLikeMovieCard={onLikeMovieCard}
+                  onMoviePopupOpen={onMoviePopupOpen}
+                />
+              </li>
+            ))}
+          </ul>
+          <button
+            className={`card__list-button ${
+              isMoreButtonActive ? "card__list-button_active" : ""
+            }`}
+            onClick={addMoreMoviesClickHandler}
           >
-            <MoviesCard
-              card={card}
-              isSavedMovie={savedMovies.some(
-                (savedMove) => savedMove.movieId === card.id
-              )}
-              onDeleteMovieCard={onDeleteMovieCard}
-              onLikeMovieCard={onLikeMovieCard}
-              onMoviePopupOpen={onMoviePopupOpen}
-            />
-          </li>
-        ))}
-      </ul>
-      <button
-        className={`card__list-button ${
-          isMoreButtonActive ? "card__list-button_active" : ""
-        }`}
-        onClick={addMoreMoviesClickHandler}
-      >
-        Ещё
-      </button>
+            Ещё
+          </button>
+        </>
+      )}
     </div>
   );
 }

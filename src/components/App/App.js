@@ -20,6 +20,14 @@ import authApi from "../../utils/AuthApi";
 import mainApi from "../../utils/MainApi";
 import moviesApi from "../../utils/MoviesApi";
 
+//util functions
+import {
+  filterMovies,
+  saveMoviesInLocalStorage,
+  getMoviesFromLocalStorage,
+  clearMoviesFromLocalStorage,
+} from "../../utils/utils.js";
+
 // Context
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
@@ -32,9 +40,12 @@ function App({ history }) {
   const [loggedIn, setLoggedIn] = useState(false);
 
   // Movies
-  const [movies, setMovies] = useState([]);
+  const [searchedMovies, setSearchedMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isErrorOccurred, setIsErrorOccurred] = useState(false);
+  const [isListEmpty, setIsListEmpty] = useState(false);
 
   // Other
   const [isMoviePopupOpen, setIsMoviePopupOpen] = useState(false);
@@ -56,28 +67,15 @@ function App({ history }) {
   }, []);
 
   useEffect(() => {
-    if (loggedIn) {
-      fetchData();
-    }
-  }, [loggedIn]);
+    fetchSavedMovies();
+    setSearchedMovies(getMoviesFromLocalStorage());
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
       setServerError(null);
     }, 10000);
   }, [serverError]);
-
-  // Functions
-  function fetchData() {
-    setIsLoading(true);
-    Promise.all([moviesApi.fetchMovies(), mainApi.getAllSavedMovies()])
-      .then(([movies, savedMovies]) => {
-        setMovies(movies);
-        setSavedMovies(savedMovies);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  }
 
   function registerHandler(values) {
     setIsLoading(true);
@@ -115,8 +113,55 @@ function App({ history }) {
     localStorage.removeItem("jwt");
     setCurrentUser(null);
     setLoggedIn(false);
-    setMovies([]);
+    setSearchedMovies([]);
     setSavedMovies([]);
+    clearMoviesFromLocalStorage();
+  }
+
+  function searchMoviesHandler(searchTerm, isShortMovie) {
+    setIsLoading(true);
+    moviesApi
+      .fetchMovies()
+      .then((movies) => {
+        updateMovieListAndStorage(movies, searchTerm, isShortMovie);
+        console.log(movies);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }
+
+  function searchSavedMoviesHandler(searchTerm, isShortMovie) {
+    const fitleredSavedMovies = filterMovies(
+      savedMovies,
+      searchTerm,
+      isShortMovie
+    );
+    setFilteredSavedMovies(fitleredSavedMovies);
+  }
+
+  function updateMovieListAndStorage(movies, searchTerm, isShortMovie) {
+    const filteredMovies = filterMovies(movies, searchTerm, isShortMovie);
+    setSearchedMovies(filteredMovies);
+
+    if (filteredMovies.length === 0) {
+      setIsListEmpty(true);
+    } else {
+      setIsListEmpty(false);
+    }
+    saveMoviesInLocalStorage(filteredMovies);
+  }
+
+  function fetchSavedMovies() {
+    mainApi
+      .getAllSavedMovies()
+      .then((savedMovies) => {
+        setSavedMovies(savedMovies);
+        setFilteredSavedMovies(savedMovies);
+      })
+      .catch((err) => {
+        setIsErrorOccurred(true);
+        console.log(err);
+      });
   }
 
   function moviePopupOpenHandler(e, movieCard, isSaved) {
@@ -197,17 +242,21 @@ function App({ history }) {
           <ProtectedRoute
             path='/movies'
             loggedIn={loggedIn}
-            movies={movies}
+            movies={searchedMovies}
             savedMovies={savedMovies}
             onLikeMovieCard={likeMovieCardHandler}
             onMoviePopupOpen={moviePopupOpenHandler}
+            onSearchSubmit={searchMoviesHandler}
+            isErrorOccurred={isErrorOccurred}
+            isListEmpty={isListEmpty}
             component={Movies}
           />
           <ProtectedRoute
             path='/saved-movies'
             loggedIn={loggedIn}
-            savedMovies={savedMovies}
+            savedMovies={filteredSavedMovies}
             onDeleteMovieCard={deleteMovieCardHandler}
+            onSearchSubmit={searchSavedMoviesHandler}
             onMoviePopupOpen={moviePopupOpenHandler}
             component={SavedMovies}
           />

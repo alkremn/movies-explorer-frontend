@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 
-function SavedMovies({ savedMovies, onDeleteMovieCard, onMoviePopupOpen }) {
-  const [isShortMovies, setIsShortMovies] = useState(false);
-
-  function shortMoviesToggleHandler() {
-    setIsShortMovies(!isShortMovies);
-  }
-
+function SavedMovies({
+  savedMovies,
+  onSearchSubmit,
+  onDeleteMovieCard,
+  onMoviePopupOpen,
+}) {
   return (
     <section className='movies'>
-      <SearchForm onShortMoviesToggle={shortMoviesToggleHandler} />
+      <SearchForm onSearchSubmit={onSearchSubmit} isRequired={false} />
       <MoviesCardList
         movies={savedMovies}
         savedMovies={savedMovies}
