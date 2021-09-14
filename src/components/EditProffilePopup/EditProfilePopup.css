@@ -72,11 +72,11 @@
   font-size: 14px;
 }
 
-.popup__input:focus {
+.form__input:focus {
   outline: none;
 }
 
-.popup__input:first-child {
+.form__input:first-child {
   margin-top: 0;
 }
 
@@ -91,10 +91,23 @@
   visibility: visible;
 }
 
+.popup__error-message {
+  background-color: rgba(255, 0, 0, 0.7);
+  text-align: center;
+  padding: 8px;
+  font-size: 12px;
+  border-radius: 7px;
+  visibility: hidden;
+}
+
+.popup__error-message_visible {
+  visibility: visible;
+}
+
 .popup__button {
   height: 46px;
   margin-top: 45px;
-  background-color: #000;
+  background-color: #202020;
   border: none;
   color: #fff;
   font-size: 14px;

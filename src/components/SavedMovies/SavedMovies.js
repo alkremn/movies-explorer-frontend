@@ -7,6 +7,8 @@ function SavedMovies({
   onSearchSubmit,
   onDeleteMovieCard,
   onMoviePopupOpen,
+  isErrorOccurred,
+  isListEmpty,
 }) {
   return (
     <section className='movies'>
@@ -16,6 +18,8 @@ function SavedMovies({
         savedMovies={savedMovies}
         onDeleteMovieCard={onDeleteMovieCard}
         onMoviePopupOpen={onMoviePopupOpen}
+        isErrorOccurred={isErrorOccurred}
+        isListEmpty={isListEmpty}
       />
     </section>
   );

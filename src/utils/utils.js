@@ -28,8 +28,6 @@ export function filterMovies(movies, searchTerm, isShortMovie) {
     filteredMovies.push(...movies);
   }
 
-  console.log(filteredMovies);
-
   return filteredMovies.filter((movie) => {
     return (
       movie.nameRU?.toLowerCase().includes(searchTerm.toLowerCase()) ||

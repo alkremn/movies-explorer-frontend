@@ -9,21 +9,22 @@ function MoviesCard({
   onLikeMovieCard,
 }) {
   return (
-    <a
-      href={onDeleteMovieCard ? card.trailer : card.trailerLink}
-      target='_blank'
-      rel='noreferrer'
-      className='movies-card'
-    >
-      <img
-        className='movies-card__image'
-        src={
-          onDeleteMovieCard
-            ? card.thumbnail
-            : `${moviesBaseUrl}${card.image.formats.thumbnail.url}`
-        }
-        alt={card.nameRU}
-      />
+    <div className='movies-card'>
+      <a
+        href={onDeleteMovieCard ? card.trailer : card.trailerLink}
+        target='_blank'
+        rel='noreferrer'
+      >
+        <img
+          className='movies-card__image'
+          src={
+            onDeleteMovieCard
+              ? card.thumbnail
+              : `${moviesBaseUrl}${card.image.formats.thumbnail.url}`
+          }
+          alt={card.nameRU}
+        />
+      </a>
       <div className='movies-card__info'>
         <div className='movies-card__info-top'>
           <h2 className='movies-card__info-title'>{card.nameRU}</h2>
@@ -43,7 +44,7 @@ function MoviesCard({
         </div>
         <p className='movies-card__duration'>{card.duration}</p>
       </div>
-    </a>
+    </div>
   );
 }
 

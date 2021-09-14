@@ -1,142 +1,114 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import "./EditProfilePopup.css";
 
+import { Formik } from "formik";
+
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { profileValidationSchema } from "../../utils/constants";
 
-import { validateForm } from "../../utils/utils";
-
-function EditProfilePopup({ isOpen, onUpdateUser, isLoading, onPopupClose }) {
+function EditProfilePopup({
+  isOpen,
+  onUpdateUser,
+  isLoading,
+  onPopupClose,
+  serverResponseMessage,
+}) {
   const currentUser = useContext(CurrentUserContext);
-
-  const [isSubmitButtonAcitve, setIsSubmitButtonActive] = useState(true);
-
-  const [values, setValues] = useState({ name: "", email: "" });
-  const [errors, setErrors] = useState({ name: "", email: "" });
-  const [touched, setTouched] = useState({ name: false, email: false });
+  const formikRef = useRef(null);
 
   useEffect(() => {
-    if (isOpen) {
-      resetForm();
-      if (currentUser) {
-        setValues({
-          name: currentUser.name,
-          email: currentUser.email,
-        });
-        setTouched({
-          name: true,
-          email: true,
-        });
+    if (isOpen && currentUser) {
+      if (formikRef.current) {
+        formikRef.current.setFieldValue("name", currentUser.name);
+        formikRef.current.setFieldValue("email", currentUser.email);
+        setTimeout(() => formikRef.current.setFieldTouched("name", true));
       }
     }
   }, [isOpen, currentUser]);
 
-  useEffect(() => {
-    const formIsValid = validateForm(errors, touched);
-    setIsSubmitButtonActive(formIsValid);
-  }, [values, errors, touched]);
-
-  function handleInputChange(e) {
-    const { name, value } = e.target;
-    setValues({
-      ...values,
-      [name]: value,
-    });
-    setTouched({
-      ...touched,
-      [name]: true,
-    });
-
-    validateInput(e.target);
-  }
-
-  function resetForm() {
-    setValues({
-      name: "",
-      email: "",
-    });
-    setErrors({
-      name: "",
-      email: "",
-    });
-    setTouched({
-      name: false,
-      email: false,
-    });
-    setIsSubmitButtonActive(false);
-  }
-
-  function validateInput(inputElement) {
-    setErrors({
-      ...errors,
-      [inputElement.name]: inputElement.validationMessage,
-    });
-  }
-
-  function handleFormSubmit(e) {
-    e.preventDefault();
-    onUpdateUser(values);
-  }
-
-  function handleCloseClick() {
-    onPopupClose();
-    resetForm();
-  }
-
   return (
     <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
-      <form className='popup__form' onSubmit={handleFormSubmit}>
-        <button
-          className='popup__close-button'
-          type='button'
-          onClick={handleCloseClick}
-        />
-        <h2 className='popup__title'>Редактировать профиль</h2>
-        <input
-          className='form__input'
-          id='form_name'
-          type='text'
-          name='name'
-          value={values.name}
-          onChange={handleInputChange}
-          onBlur={handleInputChange}
-          placeholder='Имя'
-          required
-        />
-        <p
-          className={`popup__input-error ${
-            errors.name ? "popup__error_visible" : ""
-          }`}
-        >
-          {errors.name && touched.name && errors.name}
-        </p>
-        <input
-          className='form__input'
-          placeholder='E-mail'
-          id='form_email'
-          type='email'
-          name='email'
-          value={values.email}
-          onChange={handleInputChange}
-          onBlur={handleInputChange}
-          required
-        />
-        <p
-          className={`popup__input-error ${
-            errors.email ? "popup__error_visible" : ""
-          }`}
-        >
-          {errors.email && touched.email && errors.email}
-        </p>
-        <button
-          className={`popup__button ${
-            !isSubmitButtonAcitve ? "popup__button_disabled" : ""
-          }`}
-          type='submit'
-          disabled={!isSubmitButtonAcitve}
-        >
-          {isLoading ? "Сохранение..." : "Сохранить"}
-        </button>
-      </form>
+      <Formik
+        innerRef={formikRef}
+        enableReinitialize
+        initialValues={{ name: "", email: "" }}
+        validationSchema={profileValidationSchema}
+        onSubmit={(values) => {
+          onUpdateUser(values);
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isValid,
+          dirty,
+        }) => (
+          <form className='popup__form' onSubmit={handleSubmit}>
+            <button
+              className='popup__close-button'
+              type='button'
+              onClick={onPopupClose}
+            />
+            <h2 className='popup__title'>Редактировать профиль</h2>
+            <input
+              className='form__input'
+              id='form_name'
+              type='text'
+              name='name'
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder='Имя'
+              required
+            />
+            <p
+              className={`popup__input-error ${
+                errors.name ? "popup__error_visible" : ""
+              }`}
+            >
+              {errors.name && touched.name && errors.name}
+            </p>
+            <input
+              className='form__input'
+              placeholder='E-mail'
+              id='form_email'
+              type='email'
+              name='email'
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              required
+            />
+            <p
+              className={`popup__input-error ${
+                errors.email ? "popup__error_visible" : ""
+              }`}
+            >
+              {errors.email && touched.email && errors.email}
+            </p>
+            <p
+              className={`popup__error-message ${
+                serverResponseMessage ? "popup__error-message_visible" : ""
+              }`}
+            >
+              {serverResponseMessage}
+            </p>
+            <button
+              className={`popup__button ${
+                !(isValid && dirty) ? "popup__button_disabled" : ""
+              }`}
+              type='submit'
+              disabled={!(isValid && dirty)}
+            >
+              {isLoading ? "Сохранение..." : "Сохранить"}
+            </button>
+          </form>
+        )}
+      </Formik>
     </div>
   );
 }

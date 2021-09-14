@@ -40,6 +40,7 @@ function App({ history }) {
   const [loggedIn, setLoggedIn] = useState(false);
 
   // Movies
+  const [movies, setMovies] = useState([]);
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
@@ -49,7 +50,7 @@ function App({ history }) {
   // Other
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [serverError, setServerError] = useState();
+  const [serverResponseMessage, setServerResponseMessage] = useState("");
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   // UseEffects
@@ -59,8 +60,11 @@ function App({ history }) {
       setIsLoading(true);
       authApi
         .checkToken(token)
-        .then((res) => setCurrentUser(res))
-        .catch((err) => console.log(err));
+        .then((user) => {
+          setCurrentUser(user);
+          mainApi.updateToken(token);
+        })
+        .catch((err) => setServerResponseMessage(err));
       setLoggedIn(true);
       setIsLoading(false);
     }
@@ -75,22 +79,19 @@ function App({ history }) {
 
   useEffect(() => {
     setTimeout(() => {
-      setServerError(null);
+      setServerResponseMessage(null);
     }, 10000);
-  }, [serverError]);
+  }, [serverResponseMessage]);
 
   function handleRegister(values) {
     setIsLoading(true);
     authApi
       .register(values)
       .then((user) => {
-        localStorage.setItem("jwt", user.token);
-        setCurrentUser(user);
-        setLoggedIn(true);
-        history.push("/movies");
+        onAuthorize(user);
       })
       .catch((err) => {
-        setServerError(err);
+        setServerResponseMessage(err);
       })
       .finally(() => setIsLoading(false));
   }
@@ -100,15 +101,20 @@ function App({ history }) {
     authApi
       .login(values)
       .then((user) => {
-        localStorage.setItem("jwt", user.token);
-        setCurrentUser(user);
-        setLoggedIn(true);
-        history.push("/movies");
+        onAuthorize(user);
       })
       .catch((err) => {
-        setServerError(err);
+        setServerResponseMessage(err);
       })
       .finally(() => setIsLoading(false));
+  }
+
+  function onAuthorize(user) {
+    localStorage.setItem("jwt", user.token);
+    setCurrentUser(user);
+    mainApi.updateToken(user.token);
+    setLoggedIn(true);
+    history.push("/movies");
   }
 
   function handleLogout() {
@@ -121,13 +127,20 @@ function App({ history }) {
   }
 
   function handleSearchMovies(searchTerm, isShortMovie) {
+    if (movies.length === 0) {
+      fetchMovies();
+    }
+    updateMovieListAndStorage(movies, searchTerm, isShortMovie);
+  }
+
+  function fetchMovies() {
     setIsLoading(true);
     moviesApi
       .fetchMovies()
       .then((movies) => {
-        updateMovieListAndStorage(movies, searchTerm, isShortMovie);
+        setMovies(movies);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => setServerResponseMessage(err))
       .finally(() => setIsLoading(false));
   }
 
@@ -137,6 +150,12 @@ function App({ history }) {
       searchTerm,
       isShortMovie
     );
+
+    if (fitleredSavedMovies.length === 0) {
+      setIsListEmpty(true);
+    } else {
+      setIsListEmpty(false);
+    }
     setFilteredSavedMovies(fitleredSavedMovies);
   }
 
@@ -158,11 +177,10 @@ function App({ history }) {
       .then((savedMovies) => {
         setSavedMovies(savedMovies);
         setFilteredSavedMovies(savedMovies);
-        console.log(savedMovies);
       })
       .catch((err) => {
         setIsErrorOccurred(true);
-        console.log(err);
+        setServerResponseMessage(err);
       });
   }
 
@@ -185,7 +203,7 @@ function App({ history }) {
         setSavedMovies([...savedMovies, newMovie]);
         setFilteredSavedMovies([...savedMovies, newMovie]);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setServerResponseMessage(err));
   }
 
   function handleDeleteMovieCard(movieCardId) {
@@ -199,7 +217,7 @@ function App({ history }) {
           ...filteredSavedMovies.filter((movie) => movie._id !== movieCardId),
         ]);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setServerResponseMessage(err));
   }
 
   function handleUpdateUser(values) {
@@ -207,12 +225,11 @@ function App({ history }) {
     mainApi
       .updateUserInfo(values)
       .then((updatedUser) => {
-        console.log(updatedUser);
         setCurrentUser(updatedUser);
         setIsEditProfileOpen(false);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        setServerResponseMessage(err);
       })
       .finally(() => setIsSaving(false));
   }
@@ -240,14 +257,14 @@ function App({ history }) {
             <Login
               loggedIn={loggedIn}
               onLogin={handleLogin}
-              serverError={serverError}
+              serverResponseMessage={serverResponseMessage}
             />
           </Route>
           <Route path='/signup'>
             <Register
               loggedIn={loggedIn}
               onRegister={handleRegister}
-              serverError={serverError}
+              serverResponseMessage={serverResponseMessage}
             />
           </Route>
           <Route exact path='/'>
@@ -260,16 +277,20 @@ function App({ history }) {
             loggedIn={loggedIn}
             movies={searchedMovies}
             savedMovies={savedMovies}
-            onLikeMovieCard={handleLikeMovieCard}
-            onSearchSubmit={handleSearchMovies}
+            serverResponseMessage={serverResponseMessage}
             isErrorOccurred={isErrorOccurred}
             isListEmpty={isListEmpty}
+            onLikeMovieCard={handleLikeMovieCard}
+            onSearchSubmit={handleSearchMovies}
             component={Movies}
           />
           <ProtectedRoute
             path='/saved-movies'
             loggedIn={loggedIn}
             savedMovies={filteredSavedMovies}
+            serverResponseMessage={serverResponseMessage}
+            isErrorOccurred={isErrorOccurred}
+            isListEmpty={isListEmpty}
             onDeleteMovieCard={handleDeleteMovieCard}
             onSearchSubmit={handleSearchSavedMovies}
             component={SavedMovies}
@@ -288,6 +309,7 @@ function App({ history }) {
         <EditProfilePopup
           isOpen={isEditProfileOpen}
           isLoading={isSaving}
+          serverResponseMessage={serverResponseMessage}
           onUpdateUser={handleUpdateUser}
           onPopupClose={closeAllPopups}
         />

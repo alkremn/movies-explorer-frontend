@@ -8,7 +8,7 @@ import Form from "../Form/Form";
 import FormField from "../FormField/FormField";
 import { Formik } from "formik";
 
-function Login({ loggedIn, onLogin, serverError }) {
+function Login({ loggedIn, onLogin, serverResponseMessage }) {
   const history = useHistory();
   useEffect(() => {
     if (loggedIn) {
@@ -48,7 +48,7 @@ function Login({ loggedIn, onLogin, serverError }) {
               bottomText=' Ещё не зарегистрированы?'
               bottomLink='/signup'
               bottomTitle='Регистрация'
-              serverError={serverError}
+              serverError={serverResponseMessage}
             >
               <FormField
                 title='E-mail'
