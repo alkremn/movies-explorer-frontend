@@ -8,7 +8,6 @@ function MoviesCardList({
   savedMovies,
   onDeleteMovieCard,
   onLikeMovieCard,
-  onMoviePopupOpen,
   isErrorOccurred,
   isListEmpty,
 }) {
@@ -76,7 +75,6 @@ function MoviesCardList({
                   )}
                   onDeleteMovieCard={onDeleteMovieCard}
                   onLikeMovieCard={onLikeMovieCard}
-                  onMoviePopupOpen={onMoviePopupOpen}
                 />
               </li>
             ))}

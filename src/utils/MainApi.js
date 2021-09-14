@@ -1,15 +1,15 @@
 import { mainUrl, moviesBaseUrl } from "./constants";
 
 class MainApi {
-  constructor(token) {
+  constructor() {
     this.baseUrl = mainUrl;
-    this.token = token;
+    this.token = localStorage.getItem("jwt");
   }
-  _makeRequest(url, method, body) {
+  _makeRequest(url, method, body, token) {
     return fetch(url, {
       method,
       headers: {
-        authorization: this.token ? `Bearer ${this.token}` : "",
+        authorization: token ? `Bearer ${token}` : "",
         "Content-Type": "application/json",
       },
       body,
@@ -23,8 +23,8 @@ class MainApi {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  getAllSavedMovies() {
-    return this._makeRequest(`${this.baseUrl}/movies`, "GET");
+  getAllSavedMovies(token) {
+    return this._makeRequest(`${this.baseUrl}/movies`, "GET", null, token);
   }
 
   createMovie(movieCard) {
@@ -45,13 +45,28 @@ class MainApi {
     return this._makeRequest(
       `${this.baseUrl}/movies`,
       "POST",
-      JSON.stringify(movie)
+      JSON.stringify(movie),
+      this.token
     );
   }
 
   removeSavedMovie(movieId) {
-    return this._makeRequest(`${this.baseUrl}/movies/${movieId}`, "DELETE");
+    return this._makeRequest(
+      `${this.baseUrl}/movies/${movieId}`,
+      "DELETE",
+      null,
+      this.token
+    );
+  }
+
+  updateUserInfo(values) {
+    return this._makeRequest(
+      `${this.baseUrl}/users/me`,
+      "PATCH",
+      JSON.stringify(values),
+      this.token
+    );
   }
 }
 
-export default new MainApi(localStorage.getItem("jwt"));
+export default new MainApi();

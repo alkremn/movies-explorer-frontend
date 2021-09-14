@@ -12,7 +12,7 @@ import NotFound from "../NotFound/NotFound";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
-import MovieCardPopup from "../MovieCardPopup/MovieCardPopup";
+import EditProfilePopup from "../EditProffilePopup/EditProfilePopup";
 import Preloader from "../Preloader/Preloader";
 
 // Api
@@ -43,14 +43,14 @@ function App({ history }) {
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState(null);
   const [isErrorOccurred, setIsErrorOccurred] = useState(false);
   const [isListEmpty, setIsListEmpty] = useState(false);
 
   // Other
-  const [isMoviePopupOpen, setIsMoviePopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [serverError, setServerError] = useState();
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   // UseEffects
   useEffect(() => {
@@ -67,9 +67,11 @@ function App({ history }) {
   }, []);
 
   useEffect(() => {
-    fetchSavedMovies();
-    setSearchedMovies(getMoviesFromLocalStorage());
-  }, []);
+    if (loggedIn) {
+      fetchSavedMovies();
+      setSearchedMovies(getMoviesFromLocalStorage());
+    }
+  }, [loggedIn]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -77,7 +79,7 @@ function App({ history }) {
     }, 10000);
   }, [serverError]);
 
-  function registerHandler(values) {
+  function handleRegister(values) {
     setIsLoading(true);
     authApi
       .register(values)
@@ -93,7 +95,7 @@ function App({ history }) {
       .finally(() => setIsLoading(false));
   }
 
-  function loginHandler(values) {
+  function handleLogin(values) {
     setIsLoading(true);
     authApi
       .login(values)
@@ -109,7 +111,7 @@ function App({ history }) {
       .finally(() => setIsLoading(false));
   }
 
-  function logoutHandler() {
+  function handleLogout() {
     localStorage.removeItem("jwt");
     setCurrentUser(null);
     setLoggedIn(false);
@@ -118,19 +120,18 @@ function App({ history }) {
     clearMoviesFromLocalStorage();
   }
 
-  function searchMoviesHandler(searchTerm, isShortMovie) {
+  function handleSearchMovies(searchTerm, isShortMovie) {
     setIsLoading(true);
     moviesApi
       .fetchMovies()
       .then((movies) => {
         updateMovieListAndStorage(movies, searchTerm, isShortMovie);
-        console.log(movies);
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }
 
-  function searchSavedMoviesHandler(searchTerm, isShortMovie) {
+  function handleSearchSavedMovies(searchTerm, isShortMovie) {
     const fitleredSavedMovies = filterMovies(
       savedMovies,
       searchTerm,
@@ -153,10 +154,11 @@ function App({ history }) {
 
   function fetchSavedMovies() {
     mainApi
-      .getAllSavedMovies()
+      .getAllSavedMovies(localStorage.getItem("jwt"))
       .then((savedMovies) => {
         setSavedMovies(savedMovies);
         setFilteredSavedMovies(savedMovies);
+        console.log(savedMovies);
       })
       .catch((err) => {
         setIsErrorOccurred(true);
@@ -164,45 +166,59 @@ function App({ history }) {
       });
   }
 
-  function moviePopupOpenHandler(e, movieCard, isSaved) {
-    const classList = e.target.classList;
-    if (
-      !classList.contains("movies-card__like-button") &&
-      !classList.contains("movies-card__delete-button")
-    ) {
-      setSelectedMovie({ movieCard, isSaved });
-      setIsMoviePopupOpen(true);
-    }
-  }
-
-  function likeMovieCardHandler(movieCard) {
+  function handleLikeMovieCard(movieCard) {
     const savedMovie = savedMovies.find(
       (movie) => movie.movieId === movieCard.id
     );
 
     if (savedMovie) {
-      deleteMovieCardHandler(savedMovie._id);
+      handleDeleteMovieCard(savedMovie._id);
     } else {
-      createMovieCardHandler(movieCard);
+      createMovieCard(movieCard);
     }
   }
 
-  function createMovieCardHandler(movie) {
+  function createMovieCard(movie) {
     mainApi
       .createMovie(movie)
-      .then((newMovie) => setSavedMovies([...savedMovies, newMovie]))
+      .then((newMovie) => {
+        setSavedMovies([...savedMovies, newMovie]);
+        setFilteredSavedMovies([...savedMovies, newMovie]);
+      })
       .catch((err) => console.log(err));
   }
 
-  function deleteMovieCardHandler(movieCardId) {
+  function handleDeleteMovieCard(movieCardId) {
     mainApi
       .removeSavedMovie(movieCardId)
-      .then(() =>
+      .then(() => {
         setSavedMovies([
           ...savedMovies.filter((movie) => movie._id !== movieCardId),
-        ])
-      )
+        ]);
+        setFilteredSavedMovies([
+          ...filteredSavedMovies.filter((movie) => movie._id !== movieCardId),
+        ]);
+      })
       .catch((err) => console.log(err));
+  }
+
+  function handleUpdateUser(values) {
+    setIsSaving(true);
+    mainApi
+      .updateUserInfo(values)
+      .then((updatedUser) => {
+        console.log(updatedUser);
+        setCurrentUser(updatedUser);
+        setIsEditProfileOpen(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => setIsSaving(false));
+  }
+
+  function handleEditProfilePopupOpen() {
+    setIsEditProfileOpen(true);
   }
 
   function handleCloseClick(e) {
@@ -213,7 +229,7 @@ function App({ history }) {
   }
 
   function closeAllPopups() {
-    setIsMoviePopupOpen(false);
+    setIsEditProfileOpen(false);
   }
 
   return (
@@ -223,14 +239,14 @@ function App({ history }) {
           <Route path='/signin'>
             <Login
               loggedIn={loggedIn}
-              onLogin={loginHandler}
+              onLogin={handleLogin}
               serverError={serverError}
             />
           </Route>
           <Route path='/signup'>
             <Register
               loggedIn={loggedIn}
-              onRegister={registerHandler}
+              onRegister={handleRegister}
               serverError={serverError}
             />
           </Route>
@@ -244,9 +260,8 @@ function App({ history }) {
             loggedIn={loggedIn}
             movies={searchedMovies}
             savedMovies={savedMovies}
-            onLikeMovieCard={likeMovieCardHandler}
-            onMoviePopupOpen={moviePopupOpenHandler}
-            onSearchSubmit={searchMoviesHandler}
+            onLikeMovieCard={handleLikeMovieCard}
+            onSearchSubmit={handleSearchMovies}
             isErrorOccurred={isErrorOccurred}
             isListEmpty={isListEmpty}
             component={Movies}
@@ -255,26 +270,26 @@ function App({ history }) {
             path='/saved-movies'
             loggedIn={loggedIn}
             savedMovies={filteredSavedMovies}
-            onDeleteMovieCard={deleteMovieCardHandler}
-            onSearchSubmit={searchSavedMoviesHandler}
-            onMoviePopupOpen={moviePopupOpenHandler}
+            onDeleteMovieCard={handleDeleteMovieCard}
+            onSearchSubmit={handleSearchSavedMovies}
             component={SavedMovies}
           />
           <ProtectedRoute
             path='/profile'
             isFooterInvisible={true}
             loggedIn={loggedIn}
-            component={Profile}
             user={currentUser}
-            onLogout={logoutHandler}
+            onLogout={handleLogout}
+            component={Profile}
+            onEditProfilePopupOpen={handleEditProfilePopupOpen}
           />
           <Route component={NotFound} />
         </Switch>
-        <MovieCardPopup
-          isOpen={isMoviePopupOpen}
-          movieCard={selectedMovie?.movieCard}
-          isSaved={selectedMovie?.isSaved}
-          onClose={closeAllPopups}
+        <EditProfilePopup
+          isOpen={isEditProfileOpen}
+          isLoading={isSaving}
+          onUpdateUser={handleUpdateUser}
+          onPopupClose={closeAllPopups}
         />
         {isLoading && <Preloader />}
       </CurrentUserContext.Provider>

@@ -7,14 +7,13 @@ function MoviesCard({
   isSavedMovie,
   onDeleteMovieCard,
   onLikeMovieCard,
-  onMoviePopupOpen,
 }) {
   return (
-    <div
+    <a
+      href={onDeleteMovieCard ? card.trailer : card.trailerLink}
+      target='_blank'
+      rel='noreferrer'
       className='movies-card'
-      onClick={(e) =>
-        onMoviePopupOpen(e, card, onDeleteMovieCard ? true : false)
-      }
     >
       <img
         className='movies-card__image'
@@ -44,7 +43,7 @@ function MoviesCard({
         </div>
         <p className='movies-card__duration'>{card.duration}</p>
       </div>
-    </div>
+    </a>
   );
 }
 

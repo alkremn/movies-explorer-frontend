@@ -7,7 +7,6 @@ function Movies({
   movies,
   savedMovies,
   onLikeMovieCard,
-  onMoviePopupOpen,
   onSearchSubmit,
   isErrorOccurred,
   isListEmpty,
@@ -19,7 +18,6 @@ function Movies({
         movies={movies}
         savedMovies={savedMovies}
         onLikeMovieCard={onLikeMovieCard}
-        onMoviePopupOpen={onMoviePopupOpen}
         isErrorOccurred={isErrorOccurred}
         isListEmpty={isListEmpty}
       />

@@ -30,3 +30,14 @@ export const loginValidationSchema = yup.object().shape({
     .min(8, "Минимум 8 символов")
     .required("Обязательное Поле"),
 });
+export const profileValidationSchema = yup.object().shape({
+  name: yup
+    .string()
+    .min(2, "Минимум 2 символов")
+    .max(30, "Максимум 30 символов")
+    .required("Обязательное Поле"),
+  email: yup
+    .string()
+    .email("Введите валидный имеил")
+    .required("Обязательное Поле"),
+});

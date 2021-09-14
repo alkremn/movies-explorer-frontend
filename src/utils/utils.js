@@ -47,9 +47,22 @@ export function saveMoviesInLocalStorage(movies) {
 }
 
 export function getMoviesFromLocalStorage() {
-  return JSON.parse(localStorage.getItem("movies"));
+  const movies = JSON.parse(localStorage.getItem("movies"));
+  if (movies) {
+    return movies;
+  }
+
+  return [];
 }
 
 export function clearMoviesFromLocalStorage() {
   localStorage.removeItem("movies");
+}
+
+export function validateForm(errors, touched) {
+  const formIsValid = !Object.values(errors).some((error) => error.length > 0);
+  const untouched = !Object.values(touched).some(
+    (touched) => touched === false
+  );
+  return formIsValid && untouched;
 }
