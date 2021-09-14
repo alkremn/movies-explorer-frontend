@@ -2,19 +2,18 @@ import React, { useState } from "react";
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
-function SearchForm({ onSearchSubmit, isRequired }) {
+function SearchForm({ onSearchSubmit }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isShortMovie, setIsShortMovie] = useState(false);
 
   function searchSubmitHandler(e) {
     e.preventDefault();
-    if (isRequired) {
-      if (searchTerm.length > 0) {
-        onSearchSubmit(searchTerm, isShortMovie);
-      }
-    } else {
-      onSearchSubmit(searchTerm, isShortMovie);
-    }
+    onSearchSubmit(searchTerm, isShortMovie);
+  }
+
+  function handleShortMovieToggle() {
+    setIsShortMovie(!isShortMovie);
+    onSearchSubmit(searchTerm, !isShortMovie);
   }
 
   return (
@@ -35,7 +34,7 @@ function SearchForm({ onSearchSubmit, isRequired }) {
         <span className='searchForm__slider-text'>Короткометражки</span>
         <FilterCheckbox
           className='searchForm__slider'
-          onShortMoviesToggle={() => setIsShortMovie(!isShortMovie)}
+          onShortMoviesToggle={handleShortMovieToggle}
         />
       </div>
     </form>
