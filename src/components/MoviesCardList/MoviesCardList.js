@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { throttle } from "../../utils/utils";
+import { notFoundMessage, serverErrorMessage } from "../../utils/constants";
 
 function MoviesCardList({
   movies,
@@ -53,13 +54,9 @@ function MoviesCardList({
   return (
     <div className='card__list-container'>
       {isErrorOccurred ? (
-        <p className='movies__list-text'>
-          Во время запроса произошла ошибка. <br />
-          Возможно, проблема с соединением или сервер недоступен. Подождите
-          немного и попробуйте ещё раз
-        </p>
+        <p className='movies__list-text'>{serverErrorMessage}</p>
       ) : isListEmpty ? (
-        <p className='movies__list-text'>Ничего не найдено</p>
+        <p className='movies__list-text'>{notFoundMessage}</p>
       ) : (
         <>
           <ul className='card__list'>

@@ -2,11 +2,12 @@ import * as yup from "yup";
 
 export const mainUrl = "https://api.akrem.movies-explorer.nomoredomains.rocks";
 export const moviesBaseUrl = "https://api.nomoreparties.co";
-export const testCreds = {
-  email: "alexk@zyto.com",
-  password: "ALALALAasdf",
-  name: "Alexey Kremenv",
-};
+export const serverErrorMessage = `Во время запроса произошла ошибка. 
+                                    Возможно, проблема с соединением
+                                    или сервер недоступен. Подождите 
+                                    немного и попробуйте ещё раз`;
+
+export const notFoundMessage = "Ничего не найдено";
 
 export const registerValidationSchema = yup.object().shape({
   name: yup.string().required("Обязательное Поле"),
