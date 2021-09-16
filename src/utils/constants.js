@@ -8,6 +8,12 @@ export const serverErrorMessage = `Во время запроса произош
                                     немного и попробуйте ещё раз`;
 
 export const notFoundMessage = "Ничего не найдено";
+export const TABLET_WIDTH = 768;
+export const DESKTOP_WIDTH = 1024;
+export const MIN_MOVIE_COUNT = 5;
+export const MID_MOVIE_COUNT = 8;
+export const BIG_MOVIE_COUNT = 16;
+export const UPDATE_SUCCESS_MESSAGE = "Данные профиля обновлены";
 
 export const registerValidationSchema = yup.object().shape({
   name: yup.string().required("Обязательное Поле"),

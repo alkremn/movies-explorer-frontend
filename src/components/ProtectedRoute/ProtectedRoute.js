@@ -12,7 +12,11 @@ function ProtectedRoute({
   return (
     <Route>
       <Header loggedIn={loggedIn} />
-      {loggedIn ? <Component {...props} /> : <Redirect to='signin' />}
+      {loggedIn || localStorage.getItem("jwt") ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to='signin' />
+      )}
       {!isFooterInvisible && <Footer />}
     </Route>
   );

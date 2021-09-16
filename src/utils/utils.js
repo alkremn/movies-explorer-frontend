@@ -12,6 +12,11 @@ export function throttle(func, timeFrame) {
 export function formatDuration(duration) {
   const hours = Math.floor(duration / 60);
   const mins = duration % 60;
+
+  if (hours === 0) {
+    return `${mins}м`;
+  }
+
   return `${hours}ч ${mins}м`;
 }
 

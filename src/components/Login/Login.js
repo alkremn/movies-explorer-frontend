@@ -1,20 +1,57 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
+import { useHistory } from "react-router";
 import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
-import { loginValidationSchema } from "../../utils/constants";
 import Form from "../Form/Form";
 import FormField from "../FormField/FormField";
-import { Formik } from "formik";
+
+import {validateForm} from '../../utils/utils'
 
 function Login({ loggedIn, onLogin, serverResponseMessage }) {
+  const [isSubmitButtonAcitve, setIsSubmitButtonActive] = useState(true);
+
+  const [values, setValues] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [touched, setTouched] = useState({ email: false, password: false });
+
   const history = useHistory();
   useEffect(() => {
     if (loggedIn) {
       history.push("/movies");
     }
   }, [loggedIn, history]);
+
+  useEffect(() => {
+    const formIsValid = validateForm(errors, touched);
+    setIsSubmitButtonActive(formIsValid);
+  }, [values, errors, touched]);
+
+  function handleInputChange(e) {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+    setTouched({
+      ...touched,
+      [name]: true,
+    });
+
+    validateInput(e.target);
+  }
+
+  function validateInput(inputElement) {
+    setErrors({
+      ...errors,
+      [inputElement.name]: inputElement.validationMessage,
+    });
+  }
+
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    onLogin(values);
+  }
 
   return (
     <div className='login'>
@@ -23,56 +60,37 @@ function Login({ loggedIn, onLogin, serverResponseMessage }) {
           <img className='login__logo' src={logo} alt='logo' />
         </Link>
         <h1 className='login__title'>Рады видеть!</h1>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          validationSchema={loginValidationSchema}
-          onSubmit={(values) => {
-            onLogin(values);
-          }}
+        <Form
+          onSubmit={handleFormSubmit}
+          submitButtonTitle='Войти'
+          isSubmitButtonAcitve={isSubmitButtonAcitve}
+          bottomText=' Ещё не зарегистрированы?'
+          bottomLink='/signup'
+          bottomTitle='Регистрация'
+          serverError={serverResponseMessage}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            isValid,
-            dirty,
-          }) => (
-            <Form
-              onSubmit={handleSubmit}
-              submitButtonTitle='Войти'
-              isValid={isValid}
-              dirty={dirty}
-              bottomText=' Ещё не зарегистрированы?'
-              bottomLink='/signup'
-              bottomTitle='Регистрация'
-              serverError={serverResponseMessage}
-            >
-              <FormField
-                title='E-mail'
-                name='email'
-                type='email'
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.email}
-                touched={touched.email}
-              />
-              <FormField
-                title='Пароль'
-                name='password'
-                type='password'
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={errors.password}
-                touched={touched.password}
-              />
-            </Form>
-          )}
-        </Formik>
+          <FormField
+            title='E-mail'
+            name='email'
+            type='email'
+            value={values.email}
+            onChange={handleInputChange}
+            onBlur={handleInputChange}
+            error={errors.email}
+            touched={touched.email}
+          />
+          <FormField
+            title='Пароль'
+            name='password'
+            type='password'
+            minLength='8'
+            value={values.password}
+            onChange={handleInputChange}
+            onBlur={handleInputChange}
+            error={errors.password}
+            touched={touched.password}
+          />
+        </Form>
       </div>
     </div>
   );

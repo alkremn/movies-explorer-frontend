@@ -1,6 +1,7 @@
 import React from "react";
 import "./MoviesCard.css";
 import { moviesBaseUrl } from "../../utils/constants";
+import {formatDuration} from '../../utils/utils'
 
 function MoviesCard({
   card,
@@ -42,7 +43,7 @@ function MoviesCard({
             />
           )}
         </div>
-        <p className='movies-card__duration'>{card.duration}</p>
+        <p className='movies-card__duration'>{formatDuration(card.duration)}</p>
       </div>
     </div>
   );

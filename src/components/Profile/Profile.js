@@ -3,18 +3,25 @@ import "./Profile.css";
 import { getFirstName } from "../../utils/utils";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function Profile({ onEditProfilePopupOpen, onLogout }) {
+function Profile({ onEditProfilePopupOpen, serverSuccess, onLogout }) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
     <section className='profile'>
       <div className='profile__container'>
         <div className='profile__form'>
-          <h2 className='profile__form-title'>
-            {`Привет, ${
-              currentUser ? getFirstName(currentUser.name) : "пользоватеть"
-            }!`}
-          </h2>
+          <p
+            className={`form__server-success ${
+              serverSuccess ? "form__server-success_active" : ""
+            }`}
+          >
+            {serverSuccess}
+          </p>
+          {currentUser && (
+            <h2 className='profile__form-title'>
+              {`Привет, ${getFirstName(currentUser.name)}!`}
+            </h2>
+          )}
           <p className='profile__form-field'>
             Имя <span>{currentUser?.name}</span>
           </p>

@@ -6,6 +6,8 @@ function FormField({
   name,
   type,
   value,
+  minLength,
+  maxLength,
   onChange,
   onBlur,
   error,
@@ -22,6 +24,8 @@ function FormField({
         type={type}
         name={name}
         value={value}
+        minLength={minLength}
+        maxLength={maxLength}
         onChange={onChange}
         onBlur={onBlur}
         required

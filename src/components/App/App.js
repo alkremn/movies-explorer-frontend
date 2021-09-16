@@ -28,6 +28,9 @@ import {
   clearMoviesFromLocalStorage,
 } from "../../utils/utils.js";
 
+// constants
+import { UPDATE_SUCCESS_MESSAGE } from "../../utils/constants";
+
 // Context
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
@@ -52,6 +55,7 @@ function App({ history }) {
   const [isSaving, setIsSaving] = useState(false);
   const [serverResponseMessage, setServerResponseMessage] = useState("");
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [serverSuccess, setServerSuccess] = useState("");
 
   // UseEffects
   useEffect(() => {
@@ -80,8 +84,9 @@ function App({ history }) {
   useEffect(() => {
     setTimeout(() => {
       setServerResponseMessage(null);
+      setServerSuccess(null);
     }, 10000);
-  }, [serverResponseMessage]);
+  }, [serverResponseMessage, serverSuccess]);
 
   function handleRegister(values) {
     setIsLoading(true);
@@ -128,17 +133,19 @@ function App({ history }) {
 
   function handleSearchMovies(searchTerm, isShortMovie) {
     if (movies.length === 0) {
-      fetchMovies();
+      fetchMovies(searchTerm, isShortMovie);
+    } else {
+      updateMovieListAndStorage(movies, searchTerm, isShortMovie);
     }
-    updateMovieListAndStorage(movies, searchTerm, isShortMovie);
   }
 
-  function fetchMovies() {
+  function fetchMovies(searchTerm, isShortMovie) {
     setIsLoading(true);
     moviesApi
       .fetchMovies()
       .then((movies) => {
         setMovies(movies);
+        updateMovieListAndStorage(movies, searchTerm, isShortMovie);
       })
       .catch((err) => setServerResponseMessage(err))
       .finally(() => setIsLoading(false));
@@ -227,6 +234,7 @@ function App({ history }) {
       .then((updatedUser) => {
         setCurrentUser(updatedUser);
         setIsEditProfileOpen(false);
+        setServerSuccess(UPDATE_SUCCESS_MESSAGE);
       })
       .catch((err) => {
         setServerResponseMessage(err);
@@ -255,6 +263,7 @@ function App({ history }) {
         <Switch>
           <Route path='/signin'>
             <Login
+              history={history}
               loggedIn={loggedIn}
               onLogin={handleLogin}
               serverResponseMessage={serverResponseMessage}
@@ -302,6 +311,7 @@ function App({ history }) {
             user={currentUser}
             onLogout={handleLogout}
             component={Profile}
+            serverSuccess={serverSuccess}
             onEditProfilePopupOpen={handleEditProfilePopupOpen}
           />
           <Route component={NotFound} />

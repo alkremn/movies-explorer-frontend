@@ -3,6 +3,13 @@ import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { throttle } from "../../utils/utils";
 import { notFoundMessage, serverErrorMessage } from "../../utils/constants";
+import {
+  TABLET_WIDTH,
+  DESKTOP_WIDTH,
+  MIN_MOVIE_COUNT,
+  MID_MOVIE_COUNT,
+  BIG_MOVIE_COUNT,
+} from "../../utils/constants";
 
 function MoviesCardList({
   movies,
@@ -18,15 +25,15 @@ function MoviesCardList({
 
   useEffect(() => {
     const callback = throttle(() => {
-      if (window.outerWidth < 768) {
+      if (window.outerWidth < TABLET_WIDTH) {
         setMoviesPageCount(1);
-        setFilterdMovies(movies.slice(0, 5));
-      } else if (window.outerWidth < 1024) {
+        setFilterdMovies(movies.slice(0, MIN_MOVIE_COUNT));
+      } else if (window.outerWidth < DESKTOP_WIDTH) {
         setMoviesPageCount(2);
-        setFilterdMovies(movies.slice(0, 8));
+        setFilterdMovies(movies.slice(0, MID_MOVIE_COUNT));
       } else {
         setMoviesPageCount(4);
-        setFilterdMovies(movies.slice(0, 16));
+        setFilterdMovies(movies.slice(0, BIG_MOVIE_COUNT));
       }
     }, 1000);
 

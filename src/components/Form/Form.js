@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import "./Form.css";
 
 function Form({
+  isSubmitButtonAcitve,
   onSubmit,
-  isValid,
-  dirty,
   submitButtonTitle,
   bottomText,
   bottomLink,
@@ -26,10 +25,10 @@ function Form({
         </p>
         <button
           className={`form__submit-button ${
-            isValid && dirty ? " " : "form__submit-button_disabled"
+            isSubmitButtonAcitve ? " " : "form__submit-button_disabled"
           }`}
           type='submit'
-          disabled={!(isValid && dirty)}
+          disabled={!isSubmitButtonAcitve}
         >
           {submitButtonTitle}
         </button>
