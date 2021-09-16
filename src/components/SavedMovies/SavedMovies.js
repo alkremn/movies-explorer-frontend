@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
-import { cardsData } from "../../utils/cardsData";
 
-function SavedMovies() {
-  const [movies] = useState(cardsData.slice(1, 4));
-
-  function movieCardDeleteHandler(cardId) {
-    console.log(cardId);
-  }
-
+function SavedMovies({
+  savedMovies,
+  onSearchSubmit,
+  onDeleteMovieCard,
+  onMoviePopupOpen,
+  isErrorOccurred,
+  isListEmpty,
+}) {
   return (
     <section className='movies'>
-      <SearchForm />
+      <SearchForm onSearchSubmit={onSearchSubmit} isRequired={false} />
       <MoviesCardList
-        movies={movies}
-        onDeleteMovieCard={movieCardDeleteHandler}
+        movies={savedMovies}
+        savedMovies={savedMovies}
+        onDeleteMovieCard={onDeleteMovieCard}
+        onMoviePopupOpen={onMoviePopupOpen}
+        isErrorOccurred={isErrorOccurred}
+        isListEmpty={isListEmpty}
       />
     </section>
   );

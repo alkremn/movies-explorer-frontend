@@ -14,6 +14,28 @@
   width: 100%;
 }
 
+.form__server-success {
+  color: #000;
+  background-color: #3ddc84;
+  border-radius: 5px;
+  min-height: 20px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 0;
+  margin: 20px 0 40px;
+  visibility: hidden;
+  transform: translateY(-80%);
+  opacity: 0;
+  transition: all 0.3s linear;
+}
+.form__server-success_active {
+  visibility: visible;
+  transform: translateY(0);
+  opacity: 1;
+}
+
 .profile__form-title {
   margin: 0;
   font-weight: 500;
